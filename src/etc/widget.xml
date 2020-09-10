@@ -1,0 +1,70 @@
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="Itonomy\Flowbox\Block\Widget\Flow" id="flowbox_flow">
+        <label>Flowbox Flow</label>
+        <description>A configurable Flowbox flow widget</description>
+        <parameters>
+            <!-- General -->
+            <parameter name="flow_type" xsi:type="select" required="true" visible="true" sort_order="10">
+                <label>Flow Type</label>
+                <options>
+                    <option name="default-flow" value="default-flow" selected="true">
+                        <label>Default Flow</label>
+                    </option>
+                    <option name="dynamic-tag-flow" value="dynamic-tag-flow">
+                        <label>Dynamic Tag Flow</label>
+                    </option>
+                    <option name="dynamic-product-flow" value="dynamic-product-flow">
+                        <label>Dynamic Product Flow</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="key" xsi:type="text" required="true" visible="true" sort_order="20">
+                <label>Flow Key</label>
+                <description>View your <![CDATA[<a href="#">flowpanel</a>]]> for an overview of your flows</description>
+            </parameter>
+
+            <!-- Dynamic Tag Flow -->
+            <parameter name="tags" xsi:type="text" required="true" visible="true" sort_order="30">
+                <label>Tags Operator</label>
+                <description>Whether to show results for which any of the provided tags is present, or only results with all of them present</description>
+                <depends>
+                    <parameter name="flow_type" value="dynamic-tag-flow"/>
+                </depends>
+            </parameter>
+
+            <parameter name="tags_operator" xsi:type="select" required="true" visible="true" sort_order="30">
+                <label>Tags Operator</label>
+                <description>Whether to show results for which any of the provided tags is present, or only results with all of them present</description>
+                <depends>
+                    <parameter name="flow_type" value="dynamic-tag-flow"/>
+                </depends>
+                <options>
+                    <option name="any" value="any" selected="true">
+                        <label>Any</label>
+                    </option>
+                    <option name="all" value="all">
+                        <label>All</label>
+                    </option>
+                </options>
+            </parameter>
+
+            <!-- Dynamic Product Flow -->
+            <parameter name="show_tag_bar" xsi:type="select" required="true" visible="true" sort_order="40">
+                <label>Show Tag Bar</label>
+                <description>Whether to show the tag bar</description>
+                <depends>
+                    <parameter name="flow_type" value="default-flow"/>
+                </depends>
+                <options>
+                    <option name="no" value="0">
+                        <label>No</label>
+                    </option>
+                    <option name="yes" value="1" selected="true">
+                        <label>Yes</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

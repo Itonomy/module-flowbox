@@ -1,0 +1,17 @@
+.DS_Store
+.buildpath
+.cache
+.gitattributes
+.grunt
+.idea
+.idea
+.metadata
+.php_cs
+.php_cs.cache
+.php_cs.dist
+.project
+.settings
+.swp
+.vscode
+atlassian*
+nbproject
