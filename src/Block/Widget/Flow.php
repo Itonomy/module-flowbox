@@ -21,8 +21,8 @@ class Flow extends \Magento\Framework\View\Element\Template implements \Magento\
     {
         $config = [
             'key' => $this->getData('key'),
-            'container' => $this->getData('container'),
-            'locale' => $this->localeResolver->getLocale(),
+            'container' => '#' . $this->getContainerId(),
+            'locale' => $this->getLocalePrefix(),
         ];
         $type = $this->getData('flow_type');
 
@@ -32,11 +32,11 @@ class Flow extends \Magento\Framework\View\Element\Template implements \Magento\
 
         if ($type === 'dynamic-tag-flow') {
             $config['tags'] = $this->getTags();
-            $config['tags_condition'] = $this->getData('tags_condition');
+            $config['tags_operator'] = $this->getData('tags_operator');
+            $config['show_tag_bar'] = $this->getData('show_tag_bar');
         }
 
         $this->setData('flowbox', [
-            'show_tag_bar' => $this->getData('show_tag_bar'),
             'flow' => $type,
             'config' => $config,
         ]);
@@ -44,14 +44,36 @@ class Flow extends \Magento\Framework\View\Element\Template implements \Magento\
         return $this->toJson(['flowbox']);
     }
 
+    public function getContainerId(): string
+    {
+        if ($this->hasData('flow_type')) {
+            return 'flowbox-' . (string) $this->getData('flow_type') . '-container';
+        }
+        return 'flowbox-default-flow-container';
+    }
+
     private function getTags(): array
     {
-        // May need to do some magic here later
-        return $this->getData('tags');
+        return \explode(
+            ',',
+            \preg_replace(
+                '/\s+/',
+                '',
+                (string) $this->getData('tags')
+            )
+        );
     }
 
     private function getProductId(): string
     {
         return (string) $this->getRequest()->getParam('product_id');
+    }
+
+    private function getLocalePrefix(): string
+    {
+        $localeArray = \explode('_', (string) $this->localeResolver->getLocale());
+        return \strtolower(
+            \reset($localeArray)
+        );
     }
 }

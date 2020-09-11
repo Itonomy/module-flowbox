@@ -4,9 +4,9 @@
         <label>Flowbox Flow</label>
         <description>A configurable Flowbox flow widget</description>
         <parameters>
-            <!-- General -->
+            <!-- Shared parameters -->
             <parameter name="flow_type" xsi:type="select" required="true" visible="true" sort_order="10">
-                <label>Flow Type</label>
+                <label>Type</label>
                 <options>
                     <option name="default-flow" value="default-flow" selected="true">
                         <label>Default Flow</label>
@@ -20,22 +20,22 @@
                 </options>
             </parameter>
             <parameter name="key" xsi:type="text" required="true" visible="true" sort_order="20">
-                <label>Flow Key</label>
+                <label>Key</label>
                 <description>View your <![CDATA[<a href="#">flowpanel</a>]]> for an overview of your flows</description>
             </parameter>
 
             <!-- Dynamic Tag Flow -->
             <parameter name="tags" xsi:type="text" required="true" visible="true" sort_order="30">
-                <label>Tags Operator</label>
-                <description>Whether to show results for which any of the provided tags is present, or only results with all of them present</description>
+                <label>Tags</label>
+                <description>Tags to filter</description>
                 <depends>
                     <parameter name="flow_type" value="dynamic-tag-flow"/>
                 </depends>
             </parameter>
 
-            <parameter name="tags_operator" xsi:type="select" required="true" visible="true" sort_order="30">
+            <parameter name="tags_operator" xsi:type="select" required="false" visible="true" sort_order="40">
                 <label>Tags Operator</label>
-                <description>Whether to show results for which any of the provided tags is present, or only results with all of them present</description>
+                <description>Whether to filter posts containing any or all of the filtered tags</description>
                 <depends>
                     <parameter name="flow_type" value="dynamic-tag-flow"/>
                 </depends>
@@ -49,12 +49,11 @@
                 </options>
             </parameter>
 
-            <!-- Dynamic Product Flow -->
-            <parameter name="show_tag_bar" xsi:type="select" required="true" visible="true" sort_order="40">
+            <parameter name="show_tag_bar" xsi:type="select" required="false" visible="true" sort_order="50">
                 <label>Show Tag Bar</label>
                 <description>Whether to show the tag bar</description>
                 <depends>
-                    <parameter name="flow_type" value="default-flow"/>
+                    <parameter name="flow_type" value="dynamic-tag-flow"/>
                 </depends>
                 <options>
                     <option name="no" value="0">
