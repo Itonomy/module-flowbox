@@ -19,37 +19,45 @@ class Flow extends \Magento\Framework\View\Element\Template implements \Magento\
 
     public function getJsConfig(): string
     {
+        $this->prepareData();
+        return $this->toJson(['flow', 'config']);
+    }
+
+    public function getContainerId(): string
+    {
+        return 'flowbox-' . $this->getFlow() . '-container';
+    }
+
+    private function prepareData()
+    {
+        if ($this->hasData('config')) {
+            return;
+        }
+
         $config = [
             'key' => $this->getData('key'),
             'container' => '#' . $this->getContainerId(),
             'locale' => $this->getLocalePrefix(),
         ];
-        $type = $this->getData('flow_type');
 
-        if ($type === 'dynamic-product-flow') {
+        $flow = $this->getFlow();
+        if ($flow === 'dynamic-product') {
             $config['product_id'] = $this->getProductId();
         }
-
-        if ($type === 'dynamic-tag-flow') {
+        if ($flow === 'dynamic-tag') {
             $config['tags'] = $this->getTags();
             $config['tags_operator'] = $this->getData('tags_operator');
-            $config['show_tag_bar'] = $this->getData('show_tag_bar');
         }
-
-        $this->setData('flowbox', [
-            'flow' => $type,
-            'config' => $config,
-        ]);
-
-        return $this->toJson(['flowbox']);
+        $config['show_tag_bar'] = $this->getData('show_tag_bar');
+        $this->setData('config', $config);
     }
 
-    public function getContainerId(): string
+    private function getFlow(): string
     {
-        if ($this->hasData('flow_type')) {
-            return 'flowbox-' . (string) $this->getData('flow_type') . '-container';
+        if (!$this->hasData('flow')) {
+            $this->setData('flow', 'default');
         }
-        return 'flowbox-default-flow-container';
+        return (string) $this->getData('flow');
     }
 
     private function getTags(): array

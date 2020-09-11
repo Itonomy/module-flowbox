@@ -5,17 +5,17 @@
         <description>A configurable Flowbox flow widget</description>
         <parameters>
             <!-- Shared parameters -->
-            <parameter name="flow_type" xsi:type="select" required="true" visible="true" sort_order="10">
-                <label>Type</label>
+            <parameter name="flow" xsi:type="select" required="true" visible="true" sort_order="10">
+                <label>Flow</label>
                 <options>
-                    <option name="default-flow" value="default-flow" selected="true">
-                        <label>Default Flow</label>
+                    <option name="default" value="default" selected="true">
+                        <label>Default</label>
                     </option>
-                    <option name="dynamic-tag-flow" value="dynamic-tag-flow">
-                        <label>Dynamic Tag Flow</label>
+                    <option name="dynamic-tag" value="dynamic-tag">
+                        <label>Dynamic Tag</label>
                     </option>
-                    <option name="dynamic-product-flow" value="dynamic-product-flow">
-                        <label>Dynamic Product Flow</label>
+                    <option name="dynamic-product" value="dynamic-product">
+                        <label>Dynamic Product</label>
                     </option>
                 </options>
             </parameter>
@@ -29,7 +29,7 @@
                 <label>Tags</label>
                 <description>Tags to filter</description>
                 <depends>
-                    <parameter name="flow_type" value="dynamic-tag-flow"/>
+                    <parameter name="flow" value="dynamic-tag"/>
                 </depends>
             </parameter>
 
@@ -37,7 +37,7 @@
                 <label>Tags Operator</label>
                 <description>Whether to filter posts containing any or all of the filtered tags</description>
                 <depends>
-                    <parameter name="flow_type" value="dynamic-tag-flow"/>
+                    <parameter name="flow" value="dynamic-tag"/>
                 </depends>
                 <options>
                     <option name="any" value="any" selected="true">
@@ -53,7 +53,7 @@
                 <label>Show Tag Bar</label>
                 <description>Whether to show the tag bar</description>
                 <depends>
-                    <parameter name="flow_type" value="dynamic-tag-flow"/>
+                    <parameter name="flow" value="dynamic-tag"/>
                 </depends>
                 <options>
                     <option name="no" value="0">
