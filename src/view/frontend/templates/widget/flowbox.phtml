@@ -1,6 +1,7 @@
 <?php
 /** @var Itonomy\Flowbox\Block\Widget\Flow $block */
 ?>
+<?php if ($block->isFlowboxEnabled()): ?>
 <div class="flowbox-flow-container" id="<?= $block->getContainerId() ?>"></div>
 <script type="text/x-magento-init">
 {
@@ -9,3 +10,4 @@
    }
 }
 </script>
+<?php endif?>

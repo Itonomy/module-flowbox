@@ -4,6 +4,8 @@ namespace Itonomy\Flowbox\Block\Widget;
 
 class Flow extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
 {
+    const ENABLE = 'itonomy_flowbox/general/enable';
+
     protected $_template = "widget/flowbox.phtml";
 
     private $localeResolver;
@@ -15,6 +17,11 @@ class Flow extends \Magento\Framework\View\Element\Template implements \Magento\
     ) {
         parent::__construct($context, $data);
         $this->localeResolver = $localeResolver;
+    }
+
+    public function isFlowboxEnabled(): bool
+    {
+        return $this->_scopeConfig->isSetFlag(self::ENABLE);
     }
 
     public function getJsConfig(): string

@@ -1,21 +1,10 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <flowbox>
+        <itonomy_flowbox>
             <general>
                 <enable>1</enable>
             </general>
-            <flows>
-                <default_flow>
-                    <enable>1</enable>
-                </default_flow>
-                <dynamic_product_flow>
-                    <enable>1</enable>
-                </dynamic_product_flow>
-                <dynamic_tag_flow>
-                    <enable>1</enable>
-                </dynamic_tag_flow>
-            </flows>
-        </flowbox>
+        </itonomy_flowbox>
     </default>
 </config>
