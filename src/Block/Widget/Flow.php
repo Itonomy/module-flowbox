@@ -42,11 +42,11 @@ class Flow extends \Magento\Framework\View\Element\Template implements \Magento\
 
         $flow = $this->getFlow();
         if ($flow === 'dynamic-product') {
-            $config['product_id'] = $this->getProductId();
+            $config['productId'] = $this->getProductId();
         }
         if ($flow === 'dynamic-tag') {
             $config['tags'] = $this->getTags();
-            $config['tags_operator'] = $this->getData('tags_operator');
+            $config['tagsOperator'] = $this->getData('tags_operator');
         }
         $config['show_tag_bar'] = $this->getData('show_tag_bar');
         $this->setData('config', $config);
