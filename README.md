@@ -1,59 +1,45 @@
 Itonomy Flowbox Extension
 =====================
-Flowbox for Magento2
+Flowbox integration for Magento2
 Facts
 -----
-- version: 1.0.0
+- version: 0.2.0
 - extension key: Itonomy_Flowbox
-- [extension on Magento Connect](http://www.magentocommerce.com/magento-connect/itonomy)-flowbox-1234.html)
-- Magento Connect 1.0 extension key: magento-community/Itonomy_Flowbox
-- Magento Connect 2.0 extension key: http://connect20.magentocommerce.com/community/Itonomy_Flowbox
-- [extension on GitHub](https://github.com/itonomy/Itonomy_Flowbox)
-- [direct download link](http://connect.magentocommerce.com/community/get/Itonomy_Flowbox-1.0.0.tgz)
 
 Description
 -----------
-This paragraph describes what the extension does.
+This extension enables integration of [Flowbox](https://getflowbox.com) flows into your Magento2 store. 
+
+The module allows users to create Flowbox widgets for default, dynamic-tag and dynamic-product flows, which can then easily be configured and applied to the required parts of store pages through layout updates.
 
 Requirements
 ------------
-- PHP >= 5.6.0
-- Mage_Core
-- ...
+- PHP 7.2.x or higher
 
 Compatibility
 -------------
-- Magento >= 2.0
+- Magento >= 2.4.x
 
 Installation Instructions
 -------------------------
-1. Install the extension via Magento Connect with the key shown above or copy all the files into your document root.
-2. Clear the cache, logout from the admin panel and then login again.
-3. Configure and activate the extension under System - Configuration - Company - Example Extension.
-4. ...
+1. $ `composer require itonomy/module-flowbox dev-master`
+
 
 Uninstallation
 --------------
-1. Remove all extension files from your Magento installation
-2. ...
+1. $ `composer remove itonomy/module-flowbox dev-master`
 
 Support
 -------
-If you have any issues with this extension, open an issue on [GitHub](https://github.com/itonomy/Itonomy_Flowbox/issues).
-
-Contribution
-------------
-Any contribution is highly appreciated. The best way to contribute code is to open a [pull request on GitHub](https://help.github.com/articles/using-pull-requests).
+You're on your own buddy, until we release a stable version :)
 
 Developer
 ---------
-Daniel R. Azulay
-[http://www.firstname-lastname.com](http://www.firstname-lastname.com)
-[@FirstNameLastName](https://twitter.com/FirstNameLastName)
+[Daniel R. Azulay](http://www.danielazulay.nl) for [Itonomy](http://www.itonomy.nl)
 
 Licence
 -------
-[OSL - Open Software Licence 3.0](http://opensource.org/licenses/osl-3.0.php)
+[MIT](http://opensource.org/licenses/mit)
 
 Copyright
 ---------

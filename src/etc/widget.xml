@@ -24,8 +24,17 @@
                 <description>View your <![CDATA[<a href="#">flowpanel</a>]]> for an overview of your flows</description>
             </parameter>
 
+            <!-- Dynamic Product Flow -->
+            <parameter name="product_id" xsi:type="text" required="false" visible="true" sort_order="30">
+                <label>Product ID</label>
+                <description>If not entered, current product SKU will be used</description>
+                <depends>
+                    <parameter name="flow" value="dynamic-product"/>
+                </depends>
+            </parameter>
+
             <!-- Dynamic Tag Flow -->
-            <parameter name="tags" xsi:type="text" required="true" visible="true" sort_order="30">
+            <parameter name="tags" xsi:type="text" required="true" visible="true" sort_order="40">
                 <label>Tags</label>
                 <description>Tags to filter</description>
                 <depends>
@@ -33,7 +42,7 @@
                 </depends>
             </parameter>
 
-            <parameter name="tags_operator" xsi:type="select" required="false" visible="true" sort_order="40">
+            <parameter name="tags_operator" xsi:type="select" required="false" visible="true" sort_order="50">
                 <label>Tags Operator</label>
                 <description>Whether to filter posts containing any or all of the filtered tags</description>
                 <depends>
@@ -49,7 +58,7 @@
                 </options>
             </parameter>
 
-            <parameter name="show_tag_bar" xsi:type="select" required="false" visible="true" sort_order="50">
+            <parameter name="show_tag_bar" xsi:type="select" required="false" visible="true" sort_order="60">
                 <label>Show Tag Bar</label>
                 <description>Whether to show the tag bar</description>
                 <depends>

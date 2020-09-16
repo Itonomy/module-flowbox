@@ -1,13 +1,14 @@
 var config = {
     map: {
         '*': {
-            'lib-flowbox': 'https://connect.getflowbox.com/flowbox.js',
-            'flowbox': 'Itonomy_Flowbox/js/flowbox',
+            'flowbox': 'https://connect.getflowbox.com/flowbox.js',
+            'flowbox-flow': 'Itonomy_Flowbox/js/flow',
+            'flowbox-tagbar': 'Itonomy_Flowbox/js/tagbar',
         }
     },
     shim: {
-        'flowbox': {
-            deps: ['lib-flowbox'],
+        'flowbox-flow': {
+            deps: ['flowbox'],
         }
     },
     config: {
