@@ -2,12 +2,12 @@
 <!--
 /**
 * Copyright © Itonomy BV. All rights reserved.
-* See COPYING.txt for license details.
+* See LICENSE.md for license details.
 */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Itonomy_Flowbox" setup_version="0.3.0">
+    <module name="Itonomy_Flowbox" setup_version="1.0.0">
         <sequence>
             <module name="Itonomy_Base"/>
         </sequence>
