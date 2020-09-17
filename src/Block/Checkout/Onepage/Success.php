@@ -1,5 +1,10 @@
 <?php declare(strict_types=1);
 
+/**
+ * Copyright © Itonomy BV. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
 namespace Itonomy\Flowbox\Block\Checkout\Onepage;
 
 class Success extends \Itonomy\Flowbox\Block\Base

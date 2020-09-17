@@ -1,3 +1,10 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright © Itonomy BV. All rights reserved.
+* See COPYING.txt for license details.
+*/
+-->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
     <widget class="Itonomy\Flowbox\Block\Widget\Flow" id="flowbox_flow">

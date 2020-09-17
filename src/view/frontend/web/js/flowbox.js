@@ -1,3 +1,8 @@
+/**
+ * Copyright © Itonomy BV. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
 define([
     'uiComponent',
     'underscore',
