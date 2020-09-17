@@ -1,46 +1,45 @@
 Itonomy Flowbox Extension
 =====================
 Flowbox integration for Magento2
+
 Facts
 -----
-- version: 0.2.0
+- version: 1.0.0
 - extension key: Itonomy_Flowbox
 
 Description
 -----------
-This extension enables integration of [Flowbox](https://getflowbox.com) flows into your Magento2 store. 
-
-The module allows users to create Flowbox widgets for default, dynamic-tag and dynamic-product flows, which can then easily be configured and applied to the required parts of store pages through layout updates.
+This extension integrates [Flowbox](https://getflowbox.com) default, dynamic-tag and dynamic-product flows into your Magento2 store as CMS widgets. These widgets have flexible configuration and can easily applied to the required parts of your store.
 
 Requirements
 ------------
-- PHP 7.2.x or higher
+- PHP >= 7.2.x
 
 Compatibility
 -------------
 - Magento >= 2.4.x
 
-Installation Instructions
+Installation
 -------------------------
-1. $ `composer require itonomy/module-flowbox dev-master`
+1. $ `composer require itonomy/module-flowbox`
 
 
-Uninstallation
+Uninstall
 --------------
-1. $ `composer remove itonomy/module-flowbox dev-master`
+1. $ `composer remove itonomy/module-flowbox`
 
 Support
 -------
-You're on your own buddy, until we release a stable version :)
+For inquiries and support about this module please send us an [e-mail](mailto://support@itonomy.nl) 
 
 Developer
 ---------
 [Daniel R. Azulay](http://www.danielazulay.nl) for [Itonomy](http://www.itonomy.nl)
 
-Licence
+License
 -------
 [MIT](http://opensource.org/licenses/mit)
 
 Copyright
 ---------
-(c) 2020 Itonomy
+(c) 2020 Itonomy BV
