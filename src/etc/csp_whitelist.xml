@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright © Itonomy BV. All rights reserved.
+* See LICENSE.md for license details.
+*/
+-->
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="connect-src">
+            <values>
+                <value id="amazon-aws" type="host">https://*.amazonaws.com</value>
+                <value id="flowbox-cdn" type="host">https://cdn.flbx.io</value>
+                <value id="flowbox" type="host">https://connect.getflowbox.com</value>
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="flowbox-cdn" type="host">https://cdn.flbx.io</value>
+            </values>
+        </policy>
+        <policy id="script-src">
+            <values>
+                <value id="flowbox-cdn" type="host">https://cdn.flbx.io</value>
+                <value id="flowbox" type="host">https://connect.getflowbox.com</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>
