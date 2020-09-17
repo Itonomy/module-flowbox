@@ -2,7 +2,7 @@
 
 /**
  * Copyright © Itonomy BV. All rights reserved.
- * See COPYING.txt for license details.
+ * See LICENSE.md for license details.
  */
 
 namespace Itonomy\Flowbox\Block;
@@ -14,6 +14,12 @@ abstract class Base extends \Magento\Framework\View\Element\Template
     const XML_PATH_FLOWBOX_DEBUG_JS = 'itonomy_flowbox/general/debug_javascript';
 
     const XML_PATH_API_KEY = 'itonomy_flowbox/general/api_key';
+
+    const FLOW_TYPE_DEFAULT = 'default';
+
+    const FLOW_TYPE_DYNAMIC_PRODUCT = 'dynamic-product';
+
+    const FLOW_TYPE_DYNAMIC_TAG = 'dynamic-tag';
 
     /**
      * @return bool

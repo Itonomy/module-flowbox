@@ -2,7 +2,7 @@
 
 /**
  * Copyright © Itonomy BV. All rights reserved.
- * See COPYING.txt for license details.
+ * See LICENSE.md for license details.
  */
 
 namespace Itonomy\Flowbox\Block\Checkout\Onepage;
@@ -46,9 +46,11 @@ class Success extends \Itonomy\Flowbox\Block\Base
                 ),
             ]);
         } catch (\Exception $e) {
-            $errorMessage = (string) __(
-                '%flowbox: could not compile configuration: %error',
-                ['flowbox' => 'Flowbox', 'error' => $e->getMessage()]
+            $errorMessage = $this->escapeHtml(
+                (string) __(
+                    '%flowbox: could not compile configuration: %error',
+                    ['flowbox' => 'Flowbox', 'error' => $e->getMessage()]
+                )
             );
             $this->addError($errorMessage);
             $this->_logger->error($errorMessage, ['exception' => $e]);

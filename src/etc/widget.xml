@@ -2,12 +2,12 @@
 <!--
 /**
 * Copyright © Itonomy BV. All rights reserved.
-* See COPYING.txt for license details.
+* See LICENSE.md for license details.
 */
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
-    <widget class="Itonomy\Flowbox\Block\Widget\Flow" id="flowbox_flow">
+    <widget class="Itonomy\Flowbox\Block\Widget\Flow" id="flowbox_flow" is_email_compatible="false">
         <label>Flowbox Flow</label>
         <description>A configurable Flowbox flow widget</description>
         <parameters>
@@ -16,78 +16,108 @@
                 <label>Flow</label>
                 <options>
                     <option name="default" value="default" selected="true">
-                        <label>Default</label>
+                        <label translate="true">Default</label>
                     </option>
                     <option name="dynamic-tag" value="dynamic-tag">
-                        <label>Dynamic Tag</label>
+                        <label translate="true">Dynamic Tag</label>
                     </option>
                     <option name="dynamic-product" value="dynamic-product">
-                        <label>Dynamic Product</label>
+                        <label translate="true">Dynamic Product</label>
                     </option>
                 </options>
             </parameter>
+
             <parameter name="key" xsi:type="text" required="true" visible="true" sort_order="20">
-                <label>Key</label>
-                <description>View your <![CDATA[<a href="#">flowpanel</a>]]> for an overview of your flows</description>
+                <label translate="true">Flow Key</label>
+                <description translate="true">Visit <![CDATA[<a href="https://app.flowbox.com/moderate">flowbox</a>]]> to access your flows.</description>
             </parameter>
+
             <parameter name="lazyload" xsi:type="select" required="false" visible="true" sort_order="99">
-                <label>Lazy Load</label>
-                <description>Enable lazy loading</description>
+                <label translate="true">Enable Lazy Loading</label>
                 <options>
                     <option name="yes" value="1" selected="true">
-                        <label>Yes</label>
+                        <label translate="true">Yes</label>
                     </option>
                     <option name="no" value="0">
-                        <label>No</label>
+                        <label translate="true">No</label>
                     </option>
                 </options>
             </parameter>
 
             <!-- Dynamic Product Flow -->
             <parameter name="product_id" xsi:type="text" required="false" visible="true" sort_order="30">
-                <label>Product ID</label>
-                <description>If not entered, current product SKU will be used</description>
+                <label translate="true">Product Identifier</label>
+                <description translate="true">If empty, the product identifier attribute value for the product viewed will be used.</description>
                 <depends>
                     <parameter name="flow" value="dynamic-product"/>
                 </depends>
             </parameter>
 
+            <parameter name="product_id_attribute" xsi:type="select" required="true" visible="true" sort_order="31">
+                <label translate="true">Product Identifier Attribute</label>
+                <description translate="true">The product attribute by which products are identified within Flowbox.</description>
+                <depends>
+                    <parameter name="flow" value="dynamic-product"/>
+                </depends>
+                <options>
+                    <option name="sku" value="sku" selected="true">
+                        <label>Stock Keeping Unit (SKU)</label>
+                    </option>
+                    <option name="gtin" value="gtin">
+                        <label>Global Trade Item Number (GTIN)</label>
+                    </option>
+                    <option name="mpn" value="mpn">
+                        <label>Manufacturer Part Number (MPN)</label>
+                    </option>
+                    <option name="custom" value="custom">
+                        <label translate="true">Custom (set below)</label>
+                    </option>
+                </options>
+            </parameter>
+
+            <parameter name="product_id_attribute_code" xsi:type="text" required="true" visible="true" sort_order="32">
+                <label translate="true">Custom Attribute Code</label>
+                <depends>
+                    <parameter name="product_id_attribute" value="custom"/>
+                </depends>
+            </parameter>
+
             <!-- Dynamic Tag Flow -->
             <parameter name="tags" xsi:type="text" required="true" visible="true" sort_order="40">
-                <label>Tags</label>
-                <description>Tags to filter</description>
+                <label translate="true">Tags</label>
+                <description translate="true">Tags to filter</description>
                 <depends>
                     <parameter name="flow" value="dynamic-tag"/>
                 </depends>
             </parameter>
 
             <parameter name="tags_operator" xsi:type="select" required="false" visible="true" sort_order="50">
-                <label>Tags Operator</label>
-                <description><![CDATA[Limit rendered posts to those containing <i>any</i> or <i>all</i> of the tags entered]]></description>
+                <label translate="true">Tags Operator</label>
+                <description translate="true"><![CDATA[Limit rendered posts to those containing <i>any</i> or <i>all</i> of the tags entered]]></description>
                 <depends>
                     <parameter name="flow" value="dynamic-tag"/>
                 </depends>
                 <options>
                     <option name="any" value="any" selected="true">
-                        <label>Any</label>
+                        <label translate="true">Any</label>
                     </option>
                     <option name="all" value="all">
-                        <label>All</label>
+                        <label translate="true">All</label>
                     </option>
                 </options>
             </parameter>
 
             <parameter name="show_tag_bar" xsi:type="select" required="false" visible="true" sort_order="60">
-                <label>Show Tag Bar</label>
+                <label translate="true">Show Tag Bar</label>
                 <depends>
                     <parameter name="flow" value="dynamic-tag"/>
                 </depends>
                 <options>
                     <option name="no" value="0">
-                        <label>No</label>
+                        <label translate="true">No</label>
                     </option>
                     <option name="yes" value="1" selected="true">
-                        <label>Yes</label>
+                        <label translate="true">Yes</label>
                     </option>
                 </options>
             </parameter>

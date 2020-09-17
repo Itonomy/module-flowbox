@@ -1,6 +1,6 @@
 /**
  * Copyright © Itonomy BV. All rights reserved.
- * See COPYING.txt for license details.
+ * See LICENSE.md for license details.
  */
 
 var config = {
@@ -11,9 +11,11 @@ var config = {
     shim: {
         'flowbox': {
             deps: ['lib-flowbox'],
+            exports: 'default'
         },
         'flowbox-checkout': {
             deps: ['lib-flowbox-checkout'],
+            exports: 'default'
         }
     },
     config: {
