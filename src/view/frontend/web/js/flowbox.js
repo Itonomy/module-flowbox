@@ -1,68 +1,137 @@
-define(['jquery', 'underscore', 'jquery-ui-modules/widget', 'lib-flowbox'], function ($, _) {
+define([
+    'uiComponent',
+    'underscore',
+    'ko',
+    'jquery',
+    'lib-flowbox',
+    'jquery/jquery.cookie',
+    '!domReady'
+], function(Component, _, ko, $, fb) {
     'use strict';
 
-    $.widget('flowbox.flow', {
-        _isConfigValid: false,
-        _create: function () {
-            this._super();
-            if (this._validateConfig()) {
-                console.debug(`[Flowbox]: configuration for flow ${this.options.flow} is valid`);
-                this.initFlow(this.options.config);
+    var flowKeys = [
+        'container',
+        'key',
+        'locale',
+        'tags',
+        'tagsOperator',
+        'productId',
+        'allowCookies',
+        'lazyload'
+    ];
+
+    var tagData = [];
+
+    var activeTags = ko.observableArray([]);
+    activeTags.extend({rateLimit: 100});
+
+    return Component.extend({
+
+        defaults: {
+            flowbox: {
+                allowCookies: false,
+                lazyload: true,
+                showTagBar: false
+            },
+            template: {
+                name: "Itonomy_Flowbox/flowbox",
             }
         },
 
-        _validateConfig: function() {
-            if (!String(this.options.flow).length || !_.isObject(this.options.config)) {
-                console.error('[Flowbox]: invalid data, cannot configure widget');
+        /**
+         * Logs a debug message if javascript debugging is enabled
+         * @param data
+         */
+        _debug: function(...data) {
+            if (this.flowbox.debug) {
+                console.debug(...data);
+            }
+        },
+
+        /**
+         * Initialize component
+         * @param config
+         * @returns {boolean|*}
+         */
+        initialize: function(config) {
+            if (_.isArray(config.errors)) {
+                console.error('Flowbox: server error(s):');
+                _.each(config.errors, function (error) {
+                    console.error(error);
+                });
                 return false;
             }
-            var requiredKeys = ['key', 'container'];
-            if (this.options.flow === 'dynamic-tag') {
-                requiredKeys.push(['tags'])
+
+            this._super(config);
+
+            var userAllowedSaveCookie = $.cookie('user_allowed_save_cookie')
+            if (!(_.isNull(userAllowedSaveCookie) || _.isUndefined(userAllowedSaveCookie))) {
+                this.flowbox.allowCookies = JSON.parse(userAllowedSaveCookie)["1"] === 1;
             }
-            if (this.options.flow === 'dynamic-product') {
-                requiredKeys.push(['product_id'])
+
+            if (config.flowbox.showTagBar) {
+                _.each(this.flowbox.tags, function(tag) {
+                    tagData.push({label: tag, checked: true});
+                    activeTags.push(tag);
+                });
+                activeTags.subscribe(this.updateFlow, this, 'arrayChange');
             }
-            var valid = true;
-            _.each(requiredKeys, function(requiredKey) {
-                if (!this.config.hasOwnProperty(requiredKey)
-                    || null === this.config[requiredKey]
-                    || !this.config[requiredKey].length
-                ) {
-                    console.error(`Flowbox: required property ${requiredKey} missing for flow ${this.flow}`);
-                    valid = false;
-                }
-            }, this.options)
-            return valid;
+
+            this._debug('Flowbox: component init', this);
+
+            return this;
         },
 
         /**
          * Initialize flow
-         * @param options
+         * @param elem
          */
-        initFlow: function(options) {
-            console.debug('[Flowbox]: awaiting window.flowbox() function..');
+        initFlow: function (elem) {
+            var flowElement = elem.querySelector('.flowbox .flow');
+            flowElement.id = _.uniqueId(`flowbox-${this.flowbox.flow}-container-`);;
+            this.flowbox.container = `#${flowElement.id}`;
+
+            var flowConfig = _.pick(this.flowbox, flowKeys);
+
             var interval = setInterval(function() {
-                if (typeof window.flowbox == 'function') {
+                if (_.isFunction(window.flowbox)) {
                     clearInterval(interval);
-                    console.debug('[Flowbox]: window.flowbox() function found');
-                    console.debug('[Flowbox]: calling init', options);
-                    window.flowbox('init', options);
+                    this._debug('Flowbox: flow init', flowConfig);
+                    window.flowbox('init', flowConfig);
                 }
-            }, 0.1);
+            }.bind(this), 0.1);
         },
 
         /**
          * Update flow
-         * @param tags
+         * @param options
          */
-        updateFlow: function (options) {
-            window.flowbox(
-                'update',
-                _.clone(this.options.config).extendOwn(options)
-            );
-        }
-    });
+        updateFlow: function () {
+            var flowConfig = _.pick(this.flowbox, flowKeys);
+            flowConfig.tags = activeTags();
+            this._debug('Flowbox: flow update', flowConfig);
+            window.flowbox('update', flowConfig);
+        },
 
-    return $.flowbox.flow;
+        /**
+         * Add click handler for tag bar checkbox element
+         */
+        addTagBarCheckboxHandler: function (elem, tag) {
+            elem.addEventListener('click', function(event) {
+                for (var key in tagData) {
+                    if (tagData.hasOwnProperty(key) && tagData[key].label === tag) {
+                        tagData[key].checked = event.currentTarget.checked;
+                        activeTags.removeAll()
+                        _.each(_.filter(tagData,function(tag) {
+                            return tag.checked;
+                        }), function (tag) {
+                            activeTags.push(tag.label);
+                        });
+                        break;
+                    }
+                }
+            });
+        },
+    });
 });
+

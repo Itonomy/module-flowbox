@@ -5,7 +5,7 @@
         <description>A configurable Flowbox flow widget</description>
         <parameters>
             <!-- Shared parameters -->
-            <parameter name="flow" xsi:type="select" required="true" visible="true" sort_order="10">
+            <parameter name="flow" xsi:type="select" required="false" visible="true" sort_order="10">
                 <label>Flow</label>
                 <options>
                     <option name="default" value="default" selected="true">
@@ -22,6 +22,18 @@
             <parameter name="key" xsi:type="text" required="true" visible="true" sort_order="20">
                 <label>Key</label>
                 <description>View your <![CDATA[<a href="#">flowpanel</a>]]> for an overview of your flows</description>
+            </parameter>
+            <parameter name="lazyload" xsi:type="select" required="false" visible="true" sort_order="99">
+                <label>Lazy Load</label>
+                <description>Enable lazy loading</description>
+                <options>
+                    <option name="yes" value="1" selected="true">
+                        <label>Yes</label>
+                    </option>
+                    <option name="no" value="0">
+                        <label>No</label>
+                    </option>
+                </options>
             </parameter>
 
             <!-- Dynamic Product Flow -->
@@ -44,7 +56,7 @@
 
             <parameter name="tags_operator" xsi:type="select" required="false" visible="true" sort_order="50">
                 <label>Tags Operator</label>
-                <description>Whether to filter posts containing any or all of the filtered tags</description>
+                <description><![CDATA[Limit rendered posts to those containing <i>any</i> or <i>all</i> of the tags entered]]></description>
                 <depends>
                     <parameter name="flow" value="dynamic-tag"/>
                 </depends>
@@ -60,7 +72,6 @@
 
             <parameter name="show_tag_bar" xsi:type="select" required="false" visible="true" sort_order="60">
                 <label>Show Tag Bar</label>
-                <description>Whether to show the tag bar</description>
                 <depends>
                     <parameter name="flow" value="dynamic-tag"/>
                 </depends>

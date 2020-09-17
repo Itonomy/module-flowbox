@@ -11,6 +11,15 @@
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="debug_javascript" type="select" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Debug Javascript</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <comment>Log debug messages to the javascript console in the browser</comment>
+                </field>
+                <field id="api_key" type="obscure" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>API Key</label>
+                    <comment>Your Flowbox API key</comment>
+                </field>
             </group>
         </section>
     </system>

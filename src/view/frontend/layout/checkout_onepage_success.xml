@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="order.success.additional.info">
+            <block class="Itonomy\Flowbox\Block\Checkout\Onepage\Success"
+                   name="itonomy_flowbox_checkout_success"
+                   as="flowbox_checkout"
+                   template="Itonomy_Flowbox::checkout/success.phtml"
+                   cacheable="false"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -4,6 +4,7 @@
         <itonomy_flowbox>
             <general>
                 <enable>1</enable>
+                <debug_javascript>0</debug_javascript>
             </general>
         </itonomy_flowbox>
     </default>

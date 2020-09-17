@@ -1,2 +1,20 @@
-<div class="flowbox tagbar-container"></div>
-<div class="flowbox flow-container"></div>
+<div afterRender="initFlow" class="flowbox flow-container">
+
+    <!-- ko if: flowbox.showTagBar -->
+    <div class="flowbox tag-bar">
+
+        <!-- ko foreach: flowbox.tags -->
+        <label>
+            <input data-bind="attr:{checked: true}"
+                   type="checkbox"
+                   afterRender="$parent.addTagBarCheckboxHandler"
+                   class="flowbox tag-bar-label"/>
+            <!-- ko text: $data --><!-- /ko -->
+        </label>
+        <!-- /ko -->
+
+    </div>
+    <!-- /ko -->
+
+    <div class="flowbox flow"></div>
+</div>

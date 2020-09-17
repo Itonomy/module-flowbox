@@ -1,0 +1,23 @@
+<?php
+/** @var Itonomy\Flowbox\Block\Checkout\Onepage\Success $block */
+?>
+<?php if ($block->isFlowboxEnabled()): ?>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "flowbox-checkout": {
+                    "component": "Itonomy_Flowbox/js/checkout",
+                    "config": <?= $block->getJsConfig() ?>,
+                    "dataScope": "flowbox-checkout"
+                }
+            }
+        }
+    }
+}
+</script>
+<div data-bind="scope: 'flowbox-checkout'" id="flowbox" class="flowbox">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+<?php endif; ?>
