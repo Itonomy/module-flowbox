@@ -42,8 +42,8 @@ define([
                 return false;
             }
 
-
             this._super(config);
+
             this.flowbox.products = _.values(config.flowbox.products)
 
             var userAllowedSaveCookie = $.cookie('user_allowed_save_cookie')
@@ -52,7 +52,7 @@ define([
             }
 
             var interval = setInterval(function() {
-                if (_.isObject(window.flowboxCheckout)) {
+                if (_.isObject(window.flowboxCheckout) && _.isFunction(window.flowboxCheckout.checkout)) {
                     clearInterval(interval);
                     var flowConfig = _.pick(this.flowbox, flowKeys);
                     this._debug('Flowbox: checkout', flowConfig);
