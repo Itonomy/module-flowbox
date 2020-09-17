@@ -34,7 +34,7 @@ For inquiries and support about this module please send us an [e-mail](mailto://
 
 Developer
 ---------
-[Daniel R. Azulay](http://www.danielazulay.nl) for [Itonomy](http://www.itonomy.nl)
+[Daniel R. Azulay](mailto://daniel.azulay@itonomy.nl) for [Itonomy](http://www.itonomy.nl)
 
 License
 -------
