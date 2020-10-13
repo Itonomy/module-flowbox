@@ -6,7 +6,7 @@
     "license": [
         "MIT"
     ],
-    "authors":[
+    "authors": [
         {
             "name":"Daniel R. Azulay",
             "email":"daniel.azulay@itonomy.nl"
@@ -14,7 +14,7 @@
     ],
     "require": {
         "magento/framework": "~102.0.4",
-        "php": "~7.2.0||~7.3.0"
+        "php": "~7.3.0||~7.4.0"
     },
     "autoload": {
         "files": [
