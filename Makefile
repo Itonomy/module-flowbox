@@ -5,7 +5,7 @@ PKGDIR := ./package/$(TAG)
 
 
 package:
-	git checkout origin/$(TAG)
+	git checkout $(TAG)
 	rm -rf $(PKGDIR)
 	mkdir -p $(PKGDIR)
 	cp composer.json LICENSE.md README.md $(PKGDIR)/
