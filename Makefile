@@ -1,21 +1,19 @@
-SRCDIR = ./src
-CURRENT_BRANCH := `git rev-parse --abbrev-ref HEAD`
-TAG := `git tag -l --contains origin/master`
-PKGDIR := ./package/$(TAG)
+TAG = `git tag -l --contains origin/master`
+PKG = itonomy_module-flowbox-$(TAG)
+ZIP = $(PKG).zip
 
-
-package:
+$(PKG):
 	git checkout $(TAG)
-	rm -rf $(PKGDIR)
-	mkdir -p $(PKGDIR)
-	cp composer.json LICENSE.md README.md $(PKGDIR)/
-	cp -R $(SRCDIR)/* $(PKGDIR)/
-	zip -r itonomy_module-flowbox-$(TAG).zip $(PKGDIR)/
-	rm -rf $(PKGDIR)/*
-	mv itonomy_module-flowbox-$(TAG).zip $(PKGDIR)/
-	git checkout $(CURRENT_BRANCH)
+	rm -rf $(PKG)
+	mkdir -p $(PKG)
+	cp composer.json LICENSE.md README.md $(PKG)/
+	cp -R ./src/* $(PKG)/
+	zip -r $(ZIP) $(PKG)
+	rm -rf $(PKG)/*
+	mv $(ZIP) $(PKG)/
+	mv $(PKG) ./pkg
 
 .PHONY: clean
 
 clean:
-	rm -rf $(PKGDIR)
+	rm -rf ./pkg

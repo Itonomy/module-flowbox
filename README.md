@@ -29,7 +29,7 @@ Uninstall
 
 Packaging for Magento Marketplace
 --------------
-To package the module, execute `make` or `make package` in the repository root. A Magento Marketplace compatible zip file will be generated under a `package` directory in the repository root. 
+To package the module, execute `make` in the repository root. A Magento Marketplace compatible zip file will be generated under a `pkg` directory in the repository root.
 To clean up, run `make clean`.
 
 Support
