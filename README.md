@@ -19,22 +19,42 @@ Compatibility
 -------------
 - Magento >= 2.4.x
 
-Installation
+Installing
 -------------
-1. $ `composer require itonomy/module-flowbox`
+### Using composer:
+1. Navigate to the root directory of your Magento2 installation;
+2. Execute `composer require itonomy/module-flowbox`;
+3. Execute `php bin/magento setup:upgrade`;
 
-Uninstall
--------------
-1. $ `composer remove itonomy/module-flowbox`
+### Using a zip archive:
+1. Navigate to the root directory of your Magento2 installation;
+2. Extract the archive's contents to `app/code/Itonomy/Flowbox`;
+3. Execute `php bin/magento setup:upgrade`
 
-Packaging for Magento Marketplace
+Uninstalling
 -------------
-To package the module, execute `make` in the repository root. A Magento Marketplace compatible zip file of the latest tag that contains origin/master will be generated under a `pkg` directory in the repository root.
-To clean up, run `make clean`.
+### Using composer:
+1. Navigate to the root directory of your Magento2 installation;
+2. Execute `composer remove itonomy/module-flowbox`;
+3. Execute `php bin/magento setup:upgrade`;
+
+### Using a zip file:
+1. Navigate to the root directory of your Magento2 installation;
+2. Remove the directory `app/code/Itonomy/Flowbox` and all of its contents;
+3. Execute `php bin/magento setup:upgrade`
+
+## Configuration
+The module is configured in two ways.
+
+First, basic settings related to the general functioning of the module such as the API key needed for the checkout script can be configured in the backend configuration page.
+
+To access this page, first click on `Stores` > `Configuration` (under the heading `Settings`) in the main menu to navigate to the system configuration page. From there, open the `Catalog` tab. You should now see a tab named `Flowbox`, which you can click on to open up the Flowbox configuration page.
+
+Further per-widget configuration is done when creating or editing a widget of the `Flowbox Flow` type.
 
 Support
 -------------
-For inquiries and support about this module please send us an [e-mail](mailto://support@itonomy.nl) 
+For inquiries about this module and requests for support please send us an [e-mail](mailto://support@itonomy.nl) 
 
 Developer
 -------------
