@@ -23,10 +23,14 @@ Installation
 -------------------------
 1. $ `composer require itonomy/module-flowbox`
 
-
 Uninstall
 --------------
 1. $ `composer remove itonomy/module-flowbox`
+
+Packaging for Magento Marketplace
+--------------
+To package the module, execute `make` or `make package` in the repository root. A Magento Marketplace compatible zip file will be generated under a `package` directory in the repository root. 
+To clean up, run `make clean`.
 
 Support
 -------
