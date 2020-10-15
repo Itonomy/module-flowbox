@@ -4,7 +4,6 @@ ZIP = $(PKG).zip
 
 $(PKG):
 	git checkout $(TAG)
-	git pull
 	rm -rf ./pkg $(PKG)
 	mkdir -p $(PKG)
 	cp composer.json LICENSE.md README.md $(PKG)/
