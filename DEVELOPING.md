@@ -5,7 +5,7 @@ To package the module for Magento Marketplace, execute `make` in the repository 
 
 A Magento Marketplace compatible zip file of the latest tag that contains origin/master will be generated under a `pkg` directory in the repository root.
 
-Because the latest tag containing origin/master is used, make sure you've committed
+Because the latest tag containing origin/master is used, make sure the changes you need in your package are present in the origin/master branch.
 
 Copyright
 -------------
