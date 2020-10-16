@@ -4,7 +4,7 @@ Flowbox integration for Magento2
 
 Facts
 -----
-- version: 1.1.0
+- version: 1.2.0
 - extension key: Itonomy_Flowbox
 
 Description
@@ -13,11 +13,8 @@ This extension integrates [Flowbox](https://getflowbox.com) default, dynamic-tag
 
 Requirements
 -------------
-- PHP >= 7.4.x
-
-Compatibility
--------------
-- Magento >= 2.4.x
+- PHP >= 7.4.0
+- Magento 2 CE/EE >= 2.4
 
 Installing
 -------------
@@ -60,9 +57,13 @@ Developer
 -------------
 [Daniel R. Azulay](mailto://daniel.azulay@itonomy.nl) for [Itonomy](http://www.itonomy.nl)
 
+see DEVELOPING.md
+
 License
 -------------
 [MIT](http://opensource.org/licenses/mit)
+
+see LICENSE.md
 
 Copyright
 -------------

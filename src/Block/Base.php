@@ -22,6 +22,26 @@ abstract class Base extends \Magento\Framework\View\Element\Template
     const FLOW_TYPE_DYNAMIC_TAG = 'dynamic-tag';
 
     /**
+     * @var \Magento\Framework\Encryption\EncryptorInterface
+     */
+    private $encryptor;
+
+    /**
+     * Base constructor.
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\View\Element\Template $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\View\Element\Template $context,
+        array $data = []
+    ) {
+        \Magento\Framework\View\Element\Template::__construct($context, $data);
+        $this->encryptor = $encryptor;
+    }
+
+    /**
      * @return bool
      */
     public function isFlowboxEnabled(): bool
@@ -38,20 +58,14 @@ abstract class Base extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getApiKey(): ?string
+    public function getApiKey(): string
     {
-        return $this->_scopeConfig->getValue(static::XML_PATH_API_KEY);
+        return $this->encryptor->decrypt(
+            $this->_scopeConfig->getValue(static::XML_PATH_API_KEY)
+        );
     }
-
-    /**
-     * Prepare configuration for javascript component
-     *
-     * You should set an array 'flowbox' containing configuration, or an array
-     * 'errors' containing error messages.
-     */
-    abstract protected function prepareConfig(): void;
 
     /**
      * Return json configuration for javascript component
@@ -68,6 +82,14 @@ abstract class Base extends \Magento\Framework\View\Element\Template
         }
         return $this->toJson(['flowbox']);
     }
+
+    /**
+     * Prepare configuration for javascript component
+     *
+     * You should set an array 'flowbox' containing configuration, or an array
+     * 'errors' containing error messages.
+     */
+    abstract protected function prepareConfig(): void;
 
     /**
      * @param string $message
