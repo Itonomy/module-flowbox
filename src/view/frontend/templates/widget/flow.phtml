@@ -16,7 +16,7 @@
                     "components": {
                         "flowbox": {
                             "component": "Itonomy_Flowbox/js/flowbox",
-                            "config": <?= $block->getJsConfig() ?>,
+                            "config": <?= /* @noEscape */ $block->getJsConfig(); ?>,
                             "dataScope": "flowbox"
                         }
                     }
