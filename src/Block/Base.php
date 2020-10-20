@@ -28,13 +28,13 @@ abstract class Base extends \Magento\Framework\View\Element\Template
 
     /**
      * Base constructor.
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Framework\View\Element\Template $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        \Magento\Framework\View\Element\Template $context,
         array $data = []
     ) {
         \Magento\Framework\View\Element\Template::__construct($context, $data);

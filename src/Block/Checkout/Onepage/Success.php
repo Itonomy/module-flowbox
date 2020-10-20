@@ -14,15 +14,23 @@ class Success extends \Itonomy\Flowbox\Block\Base
      */
     private $checkoutSession;
 
+    /**
+     * Success constructor.
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param array $data
+     */
     public function __construct(
-        \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = []
     ) {
-        \Magento\Framework\View\Element\Template::__construct($context, $data);
+        parent::__construct($context, $encryptor, $data);
         $this->checkoutSession = $checkoutSession;
     }
-
+    
     /**
      * @inheritDoc
      */

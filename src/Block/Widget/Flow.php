@@ -24,18 +24,29 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
      */
     private $searchCriteriaBuilder;
 
+    /**
+     * Flow constructor.
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\InventoryCatalogApi\Model\GetSkusByProductIdsInterface $getSkusByProductIds
+     * @param array $data
+     */
     public function __construct(
-        \Magento\InventoryCatalogApi\Model\GetSkusByProductIdsInterface $getSkusByProductIds,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
-        \Magento\Framework\View\Element\Template\Context $context,
-        array $data = []
-    ) {
-        parent::__construct($context, $data);
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Magento\InventoryCatalogApi\Model\GetSkusByProductIdsInterface $getSkusByProductIds,
+        array $data = [])
+    {
+        parent::__construct($context, $encryptor, $data);
         $this->getSkusByProductIds = $getSkusByProductIds;
         $this->productRepository = $productRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
+
 
     /**
      * @inheritDoc
