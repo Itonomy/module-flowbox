@@ -13,7 +13,7 @@ This extension integrates [Flowbox](https://getflowbox.com) default, dynamic-tag
 
 Requirements
 -------------
-- PHP >= 7.4.0
+- PHP >= 7.3.0
 - Magento 2 CE/EE >= 2.4
 
 Installing
