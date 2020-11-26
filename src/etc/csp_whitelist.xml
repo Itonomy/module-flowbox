@@ -13,6 +13,7 @@
                 <value id="amazon-aws" type="host">https://*.amazonaws.com</value>
                 <value id="flowbox-cdn" type="host">https://cdn.flbx.io</value>
                 <value id="flowbox" type="host">https://connect.getflowbox.com</value>
+                <value id="flowbox-insecure" type="host">http://connect.getflowbox.com</value>
             </values>
         </policy>
         <policy id="img-src">
@@ -24,6 +25,7 @@
             <values>
                 <value id="flowbox-cdn" type="host">https://cdn.flbx.io</value>
                 <value id="flowbox" type="host">https://connect.getflowbox.com</value>
+                <value id="flowbox-insecure" type="host">http://connect.getflowbox.com</value>
             </values>
         </policy>
     </policies>
