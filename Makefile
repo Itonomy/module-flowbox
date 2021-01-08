@@ -6,9 +6,9 @@ $(PKG):
 	git checkout $(TAG)
 	rm -rf ./pkg $(PKG)
 	mkdir -p $(PKG)
-	cp composer.json LICENSE.md README.md $(PKG)/
+	cp LICENSE.md README.md $(PKG)/
 	cp -R ./src/* $(PKG)/
-	cp ./composer.json.marketplace $(PKG)/composer.json
+	sed 's/src\///g' composer.json > $(PKG)/composer.json
 	zip -qr $(ZIP) $(PKG)
 	rm -rf $(PKG)/*
 	mv $(ZIP) $(PKG)/
