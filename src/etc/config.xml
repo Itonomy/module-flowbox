@@ -14,5 +14,13 @@
                 <debug_javascript>0</debug_javascript>
             </general>
         </itonomy_flowbox>
+        <dev>
+            <js>
+                <minify_exclude>
+                    <flowbox>https://connect.getflowbox.com/flowbox.js</flowbox>
+                    <flowbox_checkout>https://connect.getflowbox.com/bzfy-checkout.js</flowbox_checkout>
+                </minify_exclude>
+            </js>
+        </dev>
     </default>
 </config>

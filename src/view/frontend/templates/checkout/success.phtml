@@ -16,7 +16,7 @@
                     "components": {
                         "flowbox-checkout": {
                             "component": "Itonomy_Flowbox/js/checkout",
-                            "config": <?= $block->escapeJs($block->getJsConfig()) ?>,
+                            "config": <?= /* @escapeNotVerified */ $block->getJsConfig() ?>,
                             "dataScope": "flowbox"
                         }
                     }

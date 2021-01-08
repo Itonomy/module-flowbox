@@ -30,7 +30,7 @@ class Success extends \Itonomy\Flowbox\Block\Base
         parent::__construct($context, $encryptor, $data);
         $this->checkoutSession = $checkoutSession;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -50,7 +50,7 @@ class Success extends \Itonomy\Flowbox\Block\Base
                             'quantity' => (int) $item->getQtyOrdered()
                         ];
                     },
-                    $order->getItems()
+                    $this->getAllVisibleItems($order)
                 ),
             ]);
         } catch (\Exception $e) {
@@ -63,5 +63,21 @@ class Success extends \Itonomy\Flowbox\Block\Base
             $this->addError($errorMessage);
             $this->_logger->error($errorMessage, ['exception' => $e]);
         }
+    }
+    /**
+     * Retrieves visible products of the order, omitting its children (yes, this is different than Magento's method)
+     * @param Magento\Sales\Model\Order $order
+     *
+     * @return array
+     */
+    protected function getAllVisibleItems($order)
+    {
+        $items = [];
+        foreach ($order->getItems() as $item) {
+            if (!$item->isDeleted() && !$item->getParentItem()) {
+                $items[] = $item;
+            }
+        }
+        return $items;
     }
 }
