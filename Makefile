@@ -1,8 +1,8 @@
-TAG = `git tag -l --contains origin/master`
-PKG = itonomy_module-flowbox-$(TAG)
-ZIP = $(PKG).zip
+TAG := $(shell git tag -l --contains origin/master)
+PKG := itonomy_module-flowbox-$(TAG)
+ZIP := $(PKG).zip
 
-$(PKG):
+module:
 	git checkout $(TAG)
 	rm -rf ./pkg $(PKG)
 	mkdir -p $(PKG)
