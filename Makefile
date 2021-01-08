@@ -6,7 +6,7 @@ module:
 	git checkout $(TAG)
 	rm -rf ./pkg $(PKG)
 	mkdir -p $(PKG)
-	cp LICENSE.md README.md $(PKG)/
+	cp LICENSE.md README.md SECURITY.md $(PKG)/
 	cp -R ./src/* $(PKG)/
 	sed 's/src\///g' composer.json > $(PKG)/composer.json
 	zip -qr $(ZIP) $(PKG)
