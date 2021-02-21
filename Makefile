@@ -8,6 +8,8 @@ module:
 	mkdir -p $(PKG)
 	cp LICENSE.md README.md SECURITY.md $(PKG)/
 	cp -R ./src/* $(PKG)/
+	mkdir -p $(PKG)/docs
+	cp -R ./docs/* $(PKG)/docs/
 	sed 's/src\///g' composer.json > $(PKG)/composer.json
 	zip -qr $(ZIP) $(PKG)
 	rm -rf $(PKG)/*
