@@ -29,7 +29,7 @@
 
             <parameter name="key" xsi:type="text" required="true" visible="true" sort_order="20">
                 <label translate="true">Flow Key</label>
-                <description translate="true">Visit <![CDATA[<a href="https://app.flowbox.com/moderate">flowbox</a>]]> to access your flows.</description>
+                <description translate="true">Visit <![CDATA[<a href="https://app.getflowbox.com/login">flowbox</a>]]> to access your flows.</description>
             </parameter>
 
             <parameter name="lazyload" xsi:type="select" required="false" visible="true" sort_order="99">
