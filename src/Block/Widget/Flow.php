@@ -12,10 +12,6 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
     protected $_template = "widget/flow.phtml";
 
     /**
-     * @var \Magento\InventoryCatalogApi\Model\GetSkusByProductIdsInterface
-     */
-    private $getSkusByProductIds;
-    /**
      * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     private $productRepository;
@@ -30,7 +26,6 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\InventoryCatalogApi\Model\GetSkusByProductIdsInterface $getSkusByProductIds
      * @param array $data
      */
     public function __construct(
@@ -38,15 +33,12 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        \Magento\InventoryCatalogApi\Model\GetSkusByProductIdsInterface $getSkusByProductIds,
-        array $data = [])
-    {
+        array $data = []
+    ) {
         parent::__construct($context, $encryptor, $data);
-        $this->getSkusByProductIds = $getSkusByProductIds;
         $this->productRepository = $productRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
-
 
     /**
      * @inheritDoc
@@ -138,8 +130,7 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
 
         $productId = $this->getRequest()->getParam('id');
         if ($productIdAttr === 'sku') {
-            $productSkus = $this->getSkusByProductIds->execute([$productId]);
-            return \reset($productSkus);
+            return $this->productRepository->getById($productId)->getSku();
         }
         return $this->loadProductIdentifier($productIdAttr, $productId);
     }
