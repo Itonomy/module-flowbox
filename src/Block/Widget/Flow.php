@@ -51,7 +51,7 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
                 'debug' => $this->isDebugJavaScript(),
                 'flow' => $flow,
                 'key' => $this->escapeHtml((string) $this->getData('key')),
-                'lazyload' => (bool) ($this->getData('lazyload') ?: true),
+                'lazyload' => (bool) $this->getData('lazyload'),
                 'locale' => (string) $this->pageConfig->getElementAttribute('html', 'lang'),
             ];
 
