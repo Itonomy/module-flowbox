@@ -25,23 +25,22 @@ define([
         'lazyload'
     ];
 
-    var tagData = [];
-
-    var activeTags = ko.observableArray([]);
-    activeTags.extend({rateLimit: 100});
-
     return Component.extend({
-
         defaults: {
             flowbox: {
                 allowCookies: false,
                 lazyload: true,
-                showTagBar: false
+                showTagBar: false,
+                tags: [],
+                debug: false
             },
             template: {
                 name: "Itonomy_Flowbox/flowbox",
             }
         },
+
+        tagData: ko.observableArray([]),
+        activeTags: ko.observableArray([]),
 
         /**
          * Logs a debug message if javascript debugging is enabled
@@ -59,6 +58,8 @@ define([
          * @returns {boolean|*}
          */
         initialize: function(config) {
+            var self = this;
+            this.activeTags.extend({ rateLimit: 100 });
             if (_.isArray(config.errors)) {
                 console.error('Flowbox: server error(s):');
                 _.each(config.errors, function (error) {
@@ -76,10 +77,9 @@ define([
 
             if (config.flowbox.showTagBar) {
                 _.each(this.flowbox.tags, function(tag) {
-                    tagData.push({label: tag, checked: true});
-                    activeTags.push(tag);
+                    self.tagData.push({ label: tag });
                 });
-                activeTags.subscribe(this.updateFlow, this, 'arrayChange');
+                this.activeTags.subscribe(this.updateFlow, this, 'arrayChange');
             }
 
             this._debug('Flowbox: component init', this);
@@ -93,10 +93,11 @@ define([
          */
         initFlow: function (elem) {
             var flowElement = elem.querySelector('.flowbox .flow');
-            flowElement.id = _.uniqueId(`flowbox-${this.flowbox.flow}-container-`);;
+            flowElement.id = _.uniqueId(`flowbox-${this.flowbox.flow}-container-`);
             this.flowbox.container = `#${flowElement.id}`;
 
             var flowConfig = _.pick(this.flowbox, flowKeys);
+            flowConfig.tags = []; // reset tags array so initial flow displays all images.
 
             var interval = setInterval(function() {
                 if (_.isFunction(window.flowbox)) {
@@ -113,30 +114,9 @@ define([
          */
         updateFlow: function () {
             var flowConfig = _.pick(this.flowbox, flowKeys);
-            flowConfig.tags = activeTags();
+            flowConfig.tags = this.activeTags();
             this._debug('Flowbox: flow update', flowConfig);
             window.flowbox('update', flowConfig);
-        },
-
-        /**
-         * Add click handler for tag bar checkbox element
-         */
-        addTagBarCheckboxHandler: function (elem, tag) {
-            elem.addEventListener('click', function(event) {
-                for (var key in tagData) {
-                    if (tagData.hasOwnProperty(key) && tagData[key].label === tag) {
-                        tagData[key].checked = event.currentTarget.checked;
-                        activeTags.removeAll()
-                        _.each(_.filter(tagData,function(tag) {
-                            return tag.checked;
-                        }), function (tag) {
-                            activeTags.push(tag.label);
-                        });
-                        break;
-                    }
-                }
-            });
-        },
+        }
     });
 });
-

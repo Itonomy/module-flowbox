@@ -1,0 +1,41 @@
+//
+//  Common
+//  _____________________________________________
+
+@flowbox-tag-bar-margin: @indent__s 0;
+@flowbox-tag-border: 2px solid @flowbox-tag-border__color;
+@flowbox-tag-padding: @indent__xs @indent__s;
+@flowbox-tag-border__color: lighten(@primary__color, 30%);
+@flowbox-tag-border__hover__color: @primary__color;
+@flowbox-tag-border__checked__color: @primary__color;
+
+& when (@media-common = true) {
+    .flowbox {
+        // tag
+        &-tag {
+            position: relative;
+            display: inline-block;
+            padding: @flowbox-tag-padding;
+            border: @flowbox-tag-border;
+            min-width: @indent__xl;
+            &:hover {
+                cursor: pointer;
+                border-color: @flowbox-tag-border__hover__color;
+            }
+            &--checked {
+                border-color: @flowbox-tag-border__checked__color;
+            }
+        }
+        // tag input
+        &-input {
+            .lib-visually-hidden();
+            &[type="checkbox"] {
+                position: absolute;
+            }
+        }
+        // tag bar
+        .tag-bar {
+            margin: @flowbox-tag-bar-margin;
+        }
+    }
+}

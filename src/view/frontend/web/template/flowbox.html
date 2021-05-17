@@ -7,14 +7,17 @@
 <div afterRender="initFlow" class="flowbox flow">
     <!-- ko if: flowbox.showTagBar -->
     <div class="flowbox tag-bar">
-
-        <!-- ko foreach: flowbox.tags -->
-        <label>
-            <input data-bind="attr:{checked: true}"
-                   type="checkbox"
-                   afterRender="$parent.addTagBarCheckboxHandler"
-                   class="flowbox tag-bar-label"/>
-            <!-- ko text: $data --><!-- /ko -->
+        <!-- ko foreach: { data: tagData, as: 'tag' } -->
+        <label
+            data-bind="attr: { for: tag.label }, css: { 'flowbox-tag--checked': $parent.activeTags().includes(tag.label) }"
+            class="flowbox-tag"
+        >
+            <input
+                data-bind="attr: { id: tag.label }, checkedValue: tag.label, checked: $parent.activeTags"
+                type="checkbox"
+                class="flowbox-input"
+            />
+            <!-- ko text: tag.label --><!-- /ko -->
         </label>
         <!-- /ko -->
 

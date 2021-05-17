@@ -85,7 +85,7 @@
             <!-- Dynamic Tag Flow -->
             <parameter name="tags" xsi:type="text" required="true" visible="true" sort_order="40">
                 <label translate="true">Tags</label>
-                <description translate="true">Tags to filter</description>
+                <description translate="true">Tags to filter (comma-separated)</description>
                 <depends>
                     <parameter name="flow" value="dynamic-tag"/>
                 </depends>
