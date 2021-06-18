@@ -56,7 +56,7 @@ define([
             if (!(_.isNull(userAllowedSaveCookie) || _.isUndefined(userAllowedSaveCookie))) {
                 this.flowbox.allowCookies = JSON.parse(userAllowedSaveCookie)["1"] === 1;
             }
-            if(this.flowbox.override_cookies){
+            if (this.flowbox.override_cookies){
                 this.flowbox.allowCookies = 1;
             }
 
