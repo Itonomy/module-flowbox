@@ -44,6 +44,18 @@
                 </options>
             </parameter>
 
+            <parameter name="override_cookies" xsi:type="select" required="false" visible="true" sort_order="100">
+                <label translate="true">Override allow cookies tracking</label>
+                <options>
+                    <option name="yes" value="1">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0" selected="true">
+                        <label translate="true">No</label>
+                    </option>
+                </options>
+            </parameter>
+
             <!-- Dynamic Product Flow -->
             <parameter name="product_id" xsi:type="text" required="false" visible="true" sort_order="30">
                 <label translate="true">Product Identifier</label>
