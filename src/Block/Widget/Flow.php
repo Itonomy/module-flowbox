@@ -52,7 +52,8 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
                 'flow' => $flow,
                 'key' => $this->escapeHtml((string) $this->getData('key')),
                 'lazyload' => (bool) $this->getData('lazyload'),
-                'locale' => (string) $this->pageConfig->getElementAttribute('html', 'lang'),
+                'override_cookies' => $this->getData('override_cookies'),
+                'locale' => (string) $this->pageConfig->getElementAttribute('html', 'lang')
             ];
 
             if ($flow === static::FLOW_TYPE_DYNAMIC_PRODUCT) {

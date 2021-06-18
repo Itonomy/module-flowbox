@@ -32,7 +32,8 @@ define([
                 lazyload: true,
                 showTagBar: false,
                 tags: [],
-                debug: false
+                debug: false,
+                override_cookies: false
             },
             template: {
                 name: "Itonomy_Flowbox/flowbox",
@@ -73,6 +74,9 @@ define([
             var userAllowedSaveCookie = $.cookie('user_allowed_save_cookie')
             if (!(_.isNull(userAllowedSaveCookie) || _.isUndefined(userAllowedSaveCookie))) {
                 this.flowbox.allowCookies = JSON.parse(userAllowedSaveCookie)["1"] === 1;
+            }
+            if (this.flowbox.override_cookies){
+                this.flowbox.allowCookies = 1;
             }
 
             if (config.flowbox.showTagBar) {
