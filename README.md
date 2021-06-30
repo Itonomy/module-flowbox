@@ -48,6 +48,9 @@ To access this page, first click on `Stores` > `Configuration` (under the headin
 
 Further per-widget configuration is done when creating or editing a widget of the `Flowbox Flow` type.
 
+## Cookies
+Flowbox relies on tracking cookies. Please be aware that this module uses Magento's [_Cookie Restriction Mode_](https://docs.magento.com/user-guide/stores/compliance-cookie-restriction-mode.html) to comply with GDPR. **Third-party cookie consent solutions are not supported.** If you need to use a third-party cookie consent solution please speak to your implementation partner and have them update your code to set the _user\_allowed\_save\_cookie_ when consent to placement of tracking cookies is given. Be advised that flowbox tracking cookies fall under the 'third party tracking' cookie category.
+
 Support
 -------------
 For inquiries about this module and requests for support please send us an [e-mail](mailto://support@itonomy.nl) 
