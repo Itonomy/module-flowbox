@@ -4,7 +4,7 @@ Flowbox integration for Magento2
 
 Facts
 -----
-- version: 1.4.0
+- version: 1.4.1
 - extension key: Itonomy_Flowbox
 
 Description

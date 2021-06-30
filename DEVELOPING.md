@@ -9,4 +9,4 @@ Because the latest tag containing origin/master is used, make sure the changes y
 
 Copyright
 -------------
-(c) 2020 Itonomy BV
+(c) 2021 Itonomy BV
