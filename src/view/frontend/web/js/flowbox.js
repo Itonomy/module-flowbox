@@ -76,7 +76,7 @@ define([
                 this.flowbox.allowCookies = JSON.parse(userAllowedSaveCookie)["1"] === 1;
             }
             if (this.flowbox.override_cookies){
-                this.flowbox.allowCookies = 1;
+                this.flowbox = _.omit(this.flowbox, 'allowCookies')
             }
 
             if (config.flowbox.showTagBar) {
