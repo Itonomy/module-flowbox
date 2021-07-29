@@ -20,7 +20,7 @@ define([
         defaults: {
             flowbox: {
                 allowCookies: false,
-                override_cookies: false
+                cookieRestrictionEnabled: true,
             }
         },
 
@@ -52,12 +52,11 @@ define([
 
             this.flowbox.products = _.values(config.flowbox.products)
 
-            var userAllowedSaveCookie = $.cookie('user_allowed_save_cookie')
-            if (!(_.isNull(userAllowedSaveCookie) || _.isUndefined(userAllowedSaveCookie))) {
-                this.flowbox.allowCookies = JSON.parse(userAllowedSaveCookie)["1"] === 1;
-            }
-            if (this.flowbox.override_cookies){
-                this.flowbox.allowCookies = 1;
+            if (this.flowbox.allowCookies) {
+                var userAllowedSaveCookie = $.cookie('user_allowed_save_cookie')
+                if (!(_.isNull(userAllowedSaveCookie) || _.isUndefined(userAllowedSaveCookie))) {
+                    this.flowbox.allowCookies = JSON.parse(userAllowedSaveCookie)["1"] === 1;
+                }
             }
 
             var interval = setInterval(function() {

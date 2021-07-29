@@ -12,6 +12,9 @@
             <general>
                 <enable>1</enable>
                 <debug_javascript>0</debug_javascript>
+                <product_identifier>sku</product_identifier>
+                <tagbar_input_type>radio</tagbar_input_type>
+                <show_hashes>0</show_hashes>
             </general>
         </itonomy_flowbox>
         <dev>

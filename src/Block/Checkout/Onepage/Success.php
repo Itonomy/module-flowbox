@@ -14,47 +14,55 @@ class Success extends \Itonomy\Flowbox\Block\Base
      */
     private $checkoutSession;
 
-    /**
-     * Success constructor.
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param array $data
-     */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Cookie\Helper\Cookie $cookieHelper,
+        \Itonomy\Flowbox\Helper\Data $dataHelper,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = []
     ) {
-        parent::__construct($context, $encryptor, $data);
+        parent::__construct(
+            $context,
+            $encryptor,
+            $productRepository,
+            $searchCriteriaBuilder,
+            $cookieHelper,
+            $dataHelper,
+            $data
+        );
+
         $this->checkoutSession = $checkoutSession;
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function prepareConfig(): void
+    public function getJsConfig(): string
     {
         try {
             $order = $this->checkoutSession->getLastRealOrder();
+            $productIdAttribute = $this->getProductIdAttribute();
 
-            $this->setData('flowbox', [
-                'debug' => $this->isDebugJavaScript(),
-                'apiKey' => (string) $this->getApiKey(),
-                'orderId' => \ltrim($order->getIncrementId(), '#'),
-                'products' => \array_map(
-                    function ($item) {
-                        return [
-                            'id' => (string) $item->getSku(),
-                            'quantity' => (int) $item->getQtyOrdered()
-                        ];
-                    },
-                    $this->getAllVisibleItems($order)
-                ),
-            ]);
+            $this->setData(
+                'flowbox',
+                [
+                    'alowCookies' => $this->isUserAllowSaveCookie(),
+                    'debug' => $this->isDebugJavaScript(),
+                    'apiKey' => (string) $this->getApiKey(),
+                    'orderId' => \ltrim($order->getIncrementId(), '#'),
+                    'products' => \array_map(
+                        function ($item) use ($productIdAttribute) {
+                            return [
+                                'id' => (string) $item->getData($productIdAttribute),
+                                'quantity' => (int) $item->getQtyOrdered()
+                            ];
+                        },
+                        $this->getAllVisibleOrderItems($order)
+                    ),
+                ]
+            );
         } catch (\Exception $e) {
-            $errorMessage = $this->escapeHtml(
+            $errorMessage = $this->_escaper->escapeHtml(
                 (string) __(
                     '%flowbox: could not compile configuration: %error',
                     ['flowbox' => 'Flowbox', 'error' => $e->getMessage()]
@@ -63,21 +71,30 @@ class Success extends \Itonomy\Flowbox\Block\Base
             $this->addError($errorMessage);
             $this->_logger->error($errorMessage, ['exception' => $e]);
         }
+        return parent::getJsConfig();
     }
+
     /**
      * Retrieves visible products of the order, omitting its children (yes, this is different than Magento's method)
-     * @param Magento\Sales\Model\Order $order
      *
+     * @param \Magento\Sales\Model\Order $order
      * @return array
      */
-    protected function getAllVisibleItems($order)
+    protected function getAllVisibleOrderItems(\Magento\Sales\Model\Order $order): array
     {
+        $productIdAttribute = $this->getProductIdAttribute();
+
         $items = [];
         foreach ($order->getItems() as $item) {
+            /** @var \Magento\Sales\Model\Order\Item $item */
             if (!$item->isDeleted() && !$item->getParentItem()) {
+                $productIdAttributeValue = $item->getProduct()->getAttributeText($productIdAttribute);
+                $item->setData($productIdAttribute, $productIdAttributeValue);
+
                 $items[] = $item;
             }
         }
+
         return $items;
     }
 }

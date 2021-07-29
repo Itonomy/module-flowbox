@@ -11,12 +11,13 @@
         <label>Flowbox Flow</label>
         <description>A configurable Flowbox flow widget</description>
         <parameters>
+
             <!-- Shared parameters -->
             <parameter name="flow" xsi:type="select" required="false" visible="true" sort_order="10">
                 <label>Flow</label>
                 <options>
-                    <option name="default" value="default" selected="true">
-                        <label translate="true">Default</label>
+                    <option name="static" value="static" selected="true">
+                        <label translate="true">Static</label>
                     </option>
                     <option name="dynamic-tag" value="dynamic-tag">
                         <label translate="true">Dynamic Tag</label>
@@ -32,7 +33,7 @@
                 <description translate="true">Visit <![CDATA[<a href="https://app.getflowbox.com/login">flowbox</a>]]> to access your flows.</description>
             </parameter>
 
-            <parameter name="lazyload" xsi:type="select" required="false" visible="true" sort_order="99">
+            <parameter name="lazyload" xsi:type="select" required="false" visible="true" sort_order="30">
                 <label translate="true">Enable Lazy Loading</label>
                 <options>
                     <option name="yes" value="1" selected="true">
@@ -44,66 +45,16 @@
                 </options>
             </parameter>
 
-            <parameter name="override_cookies" xsi:type="select" required="false" visible="true" sort_order="100">
-                <label translate="true">Override allow cookies tracking</label>
-                <options>
-                    <option name="yes" value="1">
-                        <label translate="true">Yes</label>
-                    </option>
-                    <option name="no" value="0" selected="true">
-                        <label translate="true">No</label>
-                    </option>
-                </options>
-            </parameter>
-
-            <!-- Dynamic Product Flow -->
-            <parameter name="product_id" xsi:type="text" required="false" visible="true" sort_order="30">
-                <label translate="true">Product Identifier</label>
-                <description translate="true">If empty, the product identifier attribute value for the product viewed will be used.</description>
-                <depends>
-                    <parameter name="flow" value="dynamic-product"/>
-                </depends>
-            </parameter>
-
-            <parameter name="product_id_attribute" xsi:type="select" required="true" visible="true" sort_order="31">
-                <label translate="true">Product Identifier Attribute</label>
-                <description translate="true">The product attribute by which products are identified within Flowbox.</description>
-                <depends>
-                    <parameter name="flow" value="dynamic-product"/>
-                </depends>
-                <options>
-                    <option name="sku" value="sku" selected="true">
-                        <label>Stock Keeping Unit (SKU)</label>
-                    </option>
-                    <option name="gtin" value="gtin">
-                        <label>Global Trade Item Number (GTIN)</label>
-                    </option>
-                    <option name="mpn" value="mpn">
-                        <label>Manufacturer Part Number (MPN)</label>
-                    </option>
-                    <option name="custom" value="custom">
-                        <label translate="true">Custom (set below)</label>
-                    </option>
-                </options>
-            </parameter>
-
-            <parameter name="product_id_attribute_code" xsi:type="text" required="true" visible="true" sort_order="32">
-                <label translate="true">Custom Attribute Code</label>
-                <depends>
-                    <parameter name="product_id_attribute" value="custom"/>
-                </depends>
-            </parameter>
-
             <!-- Dynamic Tag Flow -->
-            <parameter name="tags" xsi:type="text" required="true" visible="true" sort_order="40">
+            <parameter name="tags" xsi:type="text" required="true" visible="true" sort_order="50">
                 <label translate="true">Tags</label>
-                <description translate="true">Tags to filter (comma-separated)</description>
+                <description translate="true">Tags to filter (comma- or space-separated)</description>
                 <depends>
                     <parameter name="flow" value="dynamic-tag"/>
                 </depends>
             </parameter>
 
-            <parameter name="tags_operator" xsi:type="select" required="false" visible="true" sort_order="50">
+            <parameter name="tags_operator" xsi:type="select" required="false" visible="true" sort_order="60">
                 <label translate="true">Tags Operator</label>
                 <description translate="true"><![CDATA[Limit rendered posts to those containing <i>any</i> or <i>all</i> of the tags entered]]></description>
                 <depends>
@@ -119,7 +70,7 @@
                 </options>
             </parameter>
 
-            <parameter name="show_tag_bar" xsi:type="select" required="false" visible="true" sort_order="60">
+            <parameter name="show_tag_bar" xsi:type="select" required="false" visible="true" sort_order="70">
                 <label translate="true">Show Tag Bar</label>
                 <depends>
                     <parameter name="flow" value="dynamic-tag"/>

@@ -9,66 +9,52 @@ namespace Itonomy\Flowbox\Block\Widget;
 
 class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\BlockInterface
 {
+    /**
+     * Static Flow
+     */
+    const FLOW_TYPE_STATIC = 'static';
+    /**
+     * Dynamic Product Flow
+     */
+    const FLOW_TYPE_DYNAMIC_PRODUCT = 'dynamic-product';
+    /**
+     * Dynamic Tag Flow
+     */
+    const FLOW_TYPE_DYNAMIC_TAG = 'dynamic-tag';
+
+    /**
+     * @var string
+     */
     protected $_template = "widget/flow.phtml";
 
-    /**
-     * @var \Magento\Catalog\Api\ProductRepositoryInterface
-     */
-    private $productRepository;
-    /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
-     */
-    private $searchCriteriaBuilder;
-
-    /**
-     * Flow constructor.
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
-        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        array $data = []
-    ) {
-        parent::__construct($context, $encryptor, $data);
-        $this->productRepository = $productRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function prepareConfig(): void
+    public function getJsConfig(): string
     {
         try {
             $flow = $this->getFlow();
+
             $config = [
+                'allowCookies' => $this->isUserAllowSaveCookie(),
                 'debug' => $this->isDebugJavaScript(),
                 'flow' => $flow,
-                'key' => $this->escapeHtml((string) $this->getData('key')),
+                'key' => $this->_escaper->escapeHtml((string) $this->getData('key')),
                 'lazyload' => (bool) $this->getData('lazyload'),
-                'override_cookies' => $this->getData('override_cookies'),
                 'locale' => (string) $this->pageConfig->getElementAttribute('html', 'lang')
             ];
-
-            if ($flow === static::FLOW_TYPE_DYNAMIC_PRODUCT) {
-                $config['productId'] = $this->getProductIdentifier();
-            }
 
             if ($flow === static::FLOW_TYPE_DYNAMIC_TAG) {
                 $config['tags'] = $this->getTags();
                 $config['tagsOperator'] = $this->getTagsOperator();
                 $config['showTagBar'] = (bool) $this->getData('show_tag_bar');
+                $config['tagInputType'] = $this->getTagInputType();
+            } elseif ($flow === static::FLOW_TYPE_DYNAMIC_PRODUCT) {
+                if ($this->getProduct()->getData('is_flowbox_product')) {
+                    $config['productId'] = $this->getProductIdentifier();
+                }
             }
 
             $this->setData('flowbox', $config);
         } catch (\Exception $e) {
-            $errorMessage = $this->escapeHtml(
+            $errorMessage = $this->_escaper->escapeHtml(
                 (string) __(
                     '%flowbox: could not compile configuration: %error',
                     ['flowbox' => 'Flowbox', 'error' => $e->getMessage()]
@@ -77,6 +63,7 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
             $this->addError($errorMessage);
             $this->_logger->error($errorMessage, ['exception' => $e]);
         }
+        return parent::getJsConfig();
     }
 
     /**
@@ -86,10 +73,16 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
     private function getFlow(): string
     {
         if (!$this->hasData('flow')) {
-            $this->setData('flow', 'default');
+            $this->setData('flow', self::FLOW_TYPE_STATIC);
         }
         $flow = (string) $this->getData('flow');
-        return $this->escapeHtml($flow);
+
+        return $this->_escaper->escapeHtml($flow);
+    }
+
+    private function getTagInputType(): string
+    {
+        return $this->_scopeConfig->getValue(self::XML_CONFIG_TAGBAR_INPUT_TYPE);
     }
 
     /**
@@ -98,76 +91,15 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
      */
     private function getTags(): array
     {
-        return \explode(
-            ',',
-            $this->escapeHtml(
-                \preg_replace(
-                    '/\s+/',
-                    '',
-                    (string) $this->getData('tags')
-                )
-            )
+        return $this->dataHelper->configToTagArray(
+            (string) $this->getData('tags'),
+            $this->_scopeConfig->isSetFlag(static::XML_CONFIG_SHOW_HASHES)
         );
     }
 
     /**
-     * Return product identifier
      * @return string
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    private function getProductIdentifier(): ?string
-    {
-        // Return product ID setting from widget if there is one
-        $sku = $this->getData('product_id');
-        if (\is_string($sku)) {
-            return $sku;
-        }
-
-        // Return product ID attribute value for currently viewed product
-        $productIdAttr = (string) $this->getData('product_id_attribute');
-        if ($productIdAttr === 'custom') {
-            $productIdAttr = (string) $this->getData('product_id_attribute_code');
-        }
-
-        $productId = $this->getRequest()->getParam('id');
-        if ($productIdAttr === 'sku') {
-            return $this->productRepository->getById($productId)->getSku();
-        }
-        return $this->loadProductIdentifier($productIdAttr, $productId);
-    }
-
-    /**
-     * @param $attributeCode
-     * @param $productId
-     * @return string
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    private function loadProductIdentifier($attributeCode, $productId): string
-    {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter('entity_id', $productId)->setPageSize(1);
-
-        $products = $this->productRepository->getList(
-            $searchCriteria->create()
-        )->getItems();
-
-        $product = \reset($products);
-        if ($product instanceof \Magento\Catalog\Api\Data\ProductInterface) {
-            $value = (string) $product->getData($attributeCode);
-            if (empty($value)) {
-                throw new \Magento\Framework\Exception\NoSuchEntityException(
-                    __(
-                        'Attribute %attribute_code not set on product with entity_id=%product_id',
-                        ['attribute_code' => $attributeCode, 'product_id' => $productId]
-                    )
-                );
-            }
-            return $value;
-        }
-        throw new \Magento\Framework\Exception\NoSuchEntityException(
-            __('No product found with entity_id=%product_id', ['product_id' => $productId])
-        );
-    }
-
     private function getTagsOperator(): string
     {
         return (string) ($this->getData('tags_operator') ?: 'any');
