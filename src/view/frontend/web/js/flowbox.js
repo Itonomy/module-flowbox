@@ -15,25 +15,26 @@ define([
     'use strict';
 
     var flowKeys = [
+        'allowCookies',
         'container',
         'key',
+        'lazyload',
         'locale',
+        'productId',
         'tags',
         'tagsOperator',
-        'productId',
-        'allowCookies',
-        'lazyload'
     ];
 
     return Component.extend({
         defaults: {
             flowbox: {
                 allowCookies: false,
+                cookieRestrictionEnabled: true,
+                debug: false,
                 lazyload: true,
                 showTagBar: false,
+                tagInputType: 'radio',
                 tags: [],
-                debug: false,
-                override_cookies: false
             },
             template: {
                 name: "Itonomy_Flowbox/flowbox",
@@ -71,12 +72,11 @@ define([
 
             this._super(config);
 
-            var userAllowedSaveCookie = $.cookie('user_allowed_save_cookie')
-            if (!(_.isNull(userAllowedSaveCookie) || _.isUndefined(userAllowedSaveCookie))) {
-                this.flowbox.allowCookies = JSON.parse(userAllowedSaveCookie)["1"] === 1;
-            }
-            if (this.flowbox.override_cookies){
-                this.flowbox = _.omit(this.flowbox, 'allowCookies')
+            if (this.flowbox.allowCookies) {
+                var userAllowedSaveCookie = $.cookie('user_allowed_save_cookie')
+                if (!(_.isNull(userAllowedSaveCookie) || _.isUndefined(userAllowedSaveCookie))) {
+                    this.flowbox.allowCookies = JSON.parse(userAllowedSaveCookie)["1"] === 1;
+                }
             }
 
             if (config.flowbox.showTagBar) {
@@ -88,7 +88,21 @@ define([
 
             this._debug('Flowbox: component init', this);
 
+
             return this;
+        },
+
+        hashAllTags: function (tags) {
+            var ts = [];
+            for (var i=0; i<tags.length;i++) {
+                var tag = tags[i];
+                if (tag.charAt(0) === '#') {
+                    ts.push(tag);
+                    continue;
+                }
+                ts.push('#' + tag);
+            }
+            return ts;
         },
 
         /**
@@ -96,6 +110,11 @@ define([
          * @param elem
          */
         initFlow: function (elem) {
+            if (this.flowbox.flow === 'dynamic_product_flow' && !this.flowbox.hasOwnProperty('product_id')) {
+                // Dynamic product flow but no product identifier, so don't initialize.
+                this._debug('No product identifier found, not loading widget.');
+                return;
+            }
             var flowElement = elem.querySelector('.flowbox .flow');
             flowElement.id = _.uniqueId(`flowbox-${this.flowbox.flow}-container-`);
             this.flowbox.container = `#${flowElement.id}`;
@@ -108,17 +127,22 @@ define([
                     clearInterval(interval);
                     this._debug('Flowbox: flow init', flowConfig);
                     window.flowbox('init', flowConfig);
+                    this.updateFlow();
                 }
             }.bind(this), 0.1);
         },
 
         /**
          * Update flow
-         * @param options
          */
         updateFlow: function () {
             var flowConfig = _.pick(this.flowbox, flowKeys);
-            flowConfig.tags = this.activeTags();
+            var tags = this.activeTags()
+            if (typeof(tags) === 'string') {
+                tags = [tags];
+            }
+            var tags = this.hashAllTags(tags);
+            flowConfig.tags = tags;
             this._debug('Flowbox: flow update', flowConfig);
             window.flowbox('update', flowConfig);
         }

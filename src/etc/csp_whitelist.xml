@@ -18,11 +18,30 @@
         </policy>
         <policy id="img-src">
             <values>
+                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="cloudfront" type="host">*.cloudfront.net</value>
+                <value id="fontawesome" type="host">*.fontawesome.com</value>
+                <value id="googleapis" type="host">*.googleapis.com</value>
+                <value id="gstatic" type="host">*.gstatic.com</value>
+                <value id="trustedshops" type="host">*.trustedshops.com</value>
+                <value id="twimg" type="host">*.twimg.com</value>
+                <value id="twitter.com" type="host">*.twitter.com</value>
+                <value id="typekit" type="host">*.typekit.net</value>
+                <value id="usercentrics" type="host">*.usercentrics.eu</value>
                 <value id="flowbox-cdn" type="host">https://cdn.flbx.io</value>
             </values>
         </policy>
         <policy id="script-src">
             <values>
+                <value id="cloudflare" type="host">*.cloudflare.com</value>
+                <value id="cloudfront" type="host">*.cloudfront.net</value>
+                <value id="fontawesome" type="host">*.fontawesome.com</value>
+                <value id="google-analytics" type="host">*.google-analytics.com</value>
+                <value id="gstatic" type="host">*.gstatic.com</value>
+                <value id="trustedshops" type="host">*.trustedshops.com</value>
+                <value id="twimg" type="host">*.twimg.com</value>
+                <value id="twitter.com" type="host">*.twitter.com</value>
+                <value id="usercentrics" type="host">*.usercentrics.eu</value>
                 <value id="flowbox-cdn" type="host">https://cdn.flbx.io</value>
                 <value id="flowbox" type="host">https://connect.getflowbox.com</value>
                 <value id="flowbox-insecure" type="host">http://connect.getflowbox.com</value>
