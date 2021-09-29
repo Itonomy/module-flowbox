@@ -29,6 +29,14 @@
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
             </group>
+            <group id="elasticsearch" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Elasticsearch</label>
+                <field id="use_keyword_field_type" type="select" translate="label comment" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Use Keyword Field Type</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Whether to translate 'text' to 'keyword' field type for elasticsearch</comment>
+                </field>
+            </group>
         </section>
     </system>
 </config>

@@ -13,6 +13,9 @@
                 <enable>1</enable>
                 <debug_javascript>0</debug_javascript>
             </general>
+            <elasticsearch>
+                <use_keyword_field_type>0</use_keyword_field_type>
+            </elasticsearch>
         </itonomy_flowbox>
         <dev>
             <js>
