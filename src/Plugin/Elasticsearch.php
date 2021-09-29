@@ -1,6 +1,6 @@
 <?php
 
-namespace Itonomy\Flowbox\Plugin\Magento\Framework;
+namespace Itonomy\Flowbox\Plugin;
 
 class Elasticsearch
 {
