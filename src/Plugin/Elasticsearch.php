@@ -5,11 +5,6 @@ namespace Itonomy\Flowbox\Plugin;
 class Elasticsearch
 {
     /**
-     * Whether to translate 'text' to 'keyword' field type for elasticsearch
-     */
-    const XML_CONFIG_ELASTIC_USE_KEYWORD_FIELD_TYPE = 'itonomy_flowbox/elasticsearch/use_keyword_fieldtype';
-
-    /**
      * @var \Magento\Framework\Search\Request\Config
      */
     private $config;
