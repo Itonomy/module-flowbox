@@ -34,7 +34,7 @@
                 <field id="use_keyword_field_type" type="select" translate="label comment" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Use Keyword Field Type</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Whether to translate 'text' to 'keyword' field type for elasticsearch</comment>
+                    <comment>Convert 'text' to 'keyword' fieldtype for elasticsearch version 7 or above</comment>
                 </field>
             </group>
         </section>
