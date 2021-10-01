@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Itonomy\Flowbox\Plugin;
 
@@ -38,19 +38,21 @@ class Elasticsearch
         string $index,
         string $entityType
     ) {
-        if ($this->isElasticUseKeywordFieldType()) {
-            $mappings = $this->config->get();
+        $mappings = $this->config->get();
 
-            foreach ($mappings as $config) {
-                foreach($config['aggregations'] as $aggregation) {
-                    if (\array_key_exists('field', $aggregation)) {
-                        $field = $aggregation['field'];
-                        if (\array_key_exists($field, $fields) && $fields[$field]['type'] === 'text') {
-                            $fields[$field]['type'] = 'keyword';
-                        }
-                        if (\array_key_exists($field . '_value', $fields) && $fields[$field . '_value']['type'] === 'text') {
-                            $fields[$field]['type'] = 'keyword';
-                        }
+        foreach ($mappings as $config) {
+            foreach($config['aggregations'] as $aggregation) {
+                if (\array_key_exists('field', $aggregation)) {
+                    $field = $aggregation['field'];
+                    if (\array_key_exists($field, $fields) &&
+                        $fields[$field]['type'] === 'text'
+                    ) {
+                        $fields[$field]['type'] = 'keyword';
+                    }
+                    if (\array_key_exists($field . '_value', $fields) &&
+                        $fields[$field . '_value']['type'] === 'text'
+                    ) {
+                        $fields[$field]['type'] = 'keyword';
                     }
                 }
             }
