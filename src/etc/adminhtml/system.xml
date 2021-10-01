@@ -18,15 +18,36 @@
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="api_key" type="obscure" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>API Key</label>
+                    <comment>Your Flowbox API key</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
                 <field id="debug_javascript" type="select" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Debug Javascript</label>
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                     <comment>Log debug messages to the javascript console in the browser</comment>
                 </field>
-                <field id="api_key" type="obscure" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>API Key</label>
-                    <comment>Your Flowbox API key</comment>
-                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                <field id="product_id_attribute" type="select" translate="label comment" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Product Identifier</label>
+                    <source_model>Itonomy\Flowbox\Model\Config\Source\ProductIdentifier</source_model>
+                    <comment>The product identifier used to identify products in Flowbox</comment>
+                </field>
+                <field id="product_id_attribute_custom" type="text" translate="label comment" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Product Identifier Custom Attribute Code</label>
+                    <depends>
+                        <field id="itonomy_flowbox/general/product_id_attribute">custom</field>
+                    </depends>
+                </field>
+                <field id="tagbar_input_type" type="select" translate="label comment" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Tag Bar Input Type</label>
+                    <source_model>Itonomy\Flowbox\Model\Config\Source\TagBarInputType</source_model>
+                    <comment>The html input type for tag bar items</comment>
+                </field>
+                <field id="show_hashes" type="select" translate="label comment" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Hashes In Tag Bar</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Show hashes prepended to tags in tag bar</comment>
                 </field>
             </group>
             <group id="elasticsearch" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -34,7 +55,7 @@
                 <field id="use_keyword_field_type" type="select" translate="label comment" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Use Keyword Field Type</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Whether to translate 'text' to 'keyword' field type for elasticsearch</comment>
+                    <comment>Convert 'text' to 'keyword' fieldtype for elasticsearch version 7 or above</comment>
                 </field>
             </group>
         </section>
