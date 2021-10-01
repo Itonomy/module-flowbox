@@ -22,7 +22,7 @@ class Elasticsearch
     public function __construct(
         \Magento\Framework\Search\Request\Config $config,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-    ) : void {
+    ) {
         $this->config = $config;
         $this->scopeConfig = $scopeConfig;
     }
