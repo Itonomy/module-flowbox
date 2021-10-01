@@ -9,22 +9,9 @@ class Elasticsearch
      */
     private $config;
 
-    /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    private $scopeConfig;
-
-    public function __construct(
-        \Magento\Framework\Search\Request\Config $config,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-    ) {
-        $this->config = $config;
-        $this->scopeConfig = $scopeConfig;
-    }
-
-    private function isElasticUseKeywordFieldType(): bool
+    public function __construct(\Magento\Framework\Search\Request\Config $config)
     {
-        return $this->scopeConfig->isSetFlag(self::XML_CONFIG_ELASTIC_USE_KEYWORD_FIELD_TYPE);
+        $this->config = $config;
     }
 
     public function beforeAddFieldsMapping(
