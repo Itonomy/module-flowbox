@@ -9,11 +9,22 @@ class Elasticsearch
      */
     private $config;
 
+    /**
+     * Elasticsearch constructor.
+     * @param \Magento\Framework\Search\Request\Config $config
+     */
     public function __construct(\Magento\Framework\Search\Request\Config $config)
     {
         $this->config = $config;
     }
 
+    /**
+     * @param \Magento\Elasticsearch7\Model\Client\Elasticsearch $subject
+     * @param array $fields
+     * @param string $index
+     * @param string $entityType
+     * @return array
+     */
     public function beforeAddFieldsMapping(
         \Magento\Elasticsearch7\Model\Client\Elasticsearch $subject,
         array $fields,
