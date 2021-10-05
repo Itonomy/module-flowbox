@@ -9,7 +9,6 @@ define([
     'ko',
     'jquery',
     'lib-flowbox',
-    'jquery/jquery.cookie',
     '!domReady'
 ], function(Component, _, ko, $, fb) {
     'use strict';
@@ -21,19 +20,16 @@ define([
         'tags',
         'tagsOperator',
         'productId',
-        'allowCookies',
         'lazyload'
     ];
 
     return Component.extend({
         defaults: {
             flowbox: {
-                allowCookies: false,
                 lazyload: true,
                 showTagBar: false,
                 tags: [],
                 debug: false,
-                override_cookies: false
             },
             template: {
                 name: "Itonomy_Flowbox/flowbox",
@@ -70,14 +66,6 @@ define([
             }
 
             this._super(config);
-
-            var userAllowedSaveCookie = $.cookie('user_allowed_save_cookie')
-            if (!(_.isNull(userAllowedSaveCookie) || _.isUndefined(userAllowedSaveCookie))) {
-                this.flowbox.allowCookies = JSON.parse(userAllowedSaveCookie)["1"] === 1;
-            }
-            if (this.flowbox.override_cookies){
-                this.flowbox = _.omit(this.flowbox, 'allowCookies')
-            }
 
             if (config.flowbox.showTagBar) {
                 _.each(this.flowbox.tags, function(tag) {
