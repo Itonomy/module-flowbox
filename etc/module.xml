@@ -9,7 +9,8 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="Itonomy_Flowbox" setup_version="1.4.6">
         <sequence>
-          <Magento_Catalog/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Elasticsearch7"/>
         </sequence>
     </module>
 </config>
