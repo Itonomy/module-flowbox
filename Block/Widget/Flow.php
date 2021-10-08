@@ -11,20 +11,16 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
 {
     protected $_template = "widget/flow.phtml";
 
-    /**
-     * @var \Magento\Catalog\Api\ProductRepositoryInterface
-     */
-    private $productRepository;
-    /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
-     */
-    private $searchCriteriaBuilder;
+    private \Magento\Catalog\Api\ProductRepositoryInterface $productRepository;
+
+    private \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder;
 
     /**
      * Flow constructor.
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Cookie\Helper\Cookie $cookie
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param array $data
      */
@@ -32,10 +28,11 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Cookie\Helper\Cookie $cookie,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         array $data = []
     ) {
-        parent::__construct($context, $encryptor, $data);
+        parent::__construct($context, $cookie, $encryptor, $data);
         $this->productRepository = $productRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
@@ -48,6 +45,7 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
         try {
             $flow = $this->getFlow();
             $config = [
+                'allowCookies' => $this->isUserAllowSaveCookies(),
                 'debug' => $this->isDebugJavaScript(),
                 'flow' => $flow,
                 'key' => $this->escapeHtml((string) $this->getData('key')),

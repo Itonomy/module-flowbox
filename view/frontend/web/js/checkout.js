@@ -13,11 +13,12 @@ define([
 ], function(Component, _, ko, $, fb) {
     'use strict';
 
-    var flowKeys = ['apiKey', 'products', 'orderId'];
+    var flowKeys = ['allowCookies', 'apiKey', 'products', 'orderId'];
 
     return Component.extend({
         defaults: {
             flowbox: {
+                allowCookies: true,
             }
         },
 

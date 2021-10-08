@@ -14,6 +14,7 @@ define([
     'use strict';
 
     var flowKeys = [
+        'allowCookies',
         'container',
         'key',
         'locale',
@@ -26,6 +27,7 @@ define([
     return Component.extend({
         defaults: {
             flowbox: {
+                allowCookies: true,
                 lazyload: true,
                 showTagBar: false,
                 tags: [],

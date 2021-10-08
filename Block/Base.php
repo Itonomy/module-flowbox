@@ -21,23 +21,25 @@ abstract class Base extends \Magento\Framework\View\Element\Template
 
     const FLOW_TYPE_DYNAMIC_TAG = 'dynamic-tag';
 
-    /**
-     * @var \Magento\Framework\Encryption\EncryptorInterface
-     */
-    private $encryptor;
+    private \Magento\Framework\Encryption\EncryptorInterface $encryptor;
+
+    private \Magento\Cookie\Helper\Cookie $cookie;
 
     /**
      * Base constructor.
      * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Cookie\Helper\Cookie $cookie
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Cookie\Helper\Cookie $cookie,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         array $data = []
     ) {
-        \Magento\Framework\View\Element\Template::__construct($context, $data);
+        parent::__construct($context, $data);
+        $this->cookie = $cookie;
         $this->encryptor = $encryptor;
     }
 
@@ -81,6 +83,16 @@ abstract class Base extends \Magento\Framework\View\Element\Template
             return $this->toJson(['errors']);
         }
         return $this->toJson(['flowbox']);
+    }
+
+    /**
+     * Checks whether user is allowed to save cookies.
+     *
+     * @return bool
+     */
+    protected function isUserAllowSaveCookies(): bool
+    {
+        return false === $this->cookie->isUserNotAllowSaveCookie();
     }
 
     /**
