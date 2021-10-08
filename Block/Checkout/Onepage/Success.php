@@ -9,25 +9,24 @@ namespace Itonomy\Flowbox\Block\Checkout\Onepage;
 
 class Success extends \Itonomy\Flowbox\Block\Base
 {
-    /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    private $checkoutSession;
+    private \Magento\Checkout\Model\Session $checkoutSession;
 
     /**
      * Success constructor.
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Cookie\Helper\Cookie $cookie
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Magento\Cookie\Helper\Cookie $cookie,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = []
     ) {
-        parent::__construct($context, $encryptor, $data);
+        parent::__construct($context, $cookie, $encryptor, $data);
         $this->checkoutSession = $checkoutSession;
     }
 
@@ -40,8 +39,9 @@ class Success extends \Itonomy\Flowbox\Block\Base
             $order = $this->checkoutSession->getLastRealOrder();
 
             $this->setData('flowbox', [
-                'debug' => $this->isDebugJavaScript(),
+                'allowCookies' => $this->isUserAllowSaveCookies(),
                 'apiKey' => (string) $this->getApiKey(),
+                'debug' => $this->isDebugJavaScript(),
                 'orderId' => \ltrim($order->getIncrementId(), '#'),
                 'products' => \array_map(
                     function ($item) {
