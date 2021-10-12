@@ -83,7 +83,7 @@ define([
         },
 
         toggleCheckboxActiveTag: function (label) {
-            if (typeof window.flowbox !== 'undefined') {
+            if (_.isFunction(window.flowbox)) {
                 if (this.activeTags().length > 1 || !_.contains(this.activeTags(), label)) {
                     this.activeTags.removeAll()
                     this.activeTags.push(label)
@@ -107,13 +107,16 @@ define([
 
             var flowConfig = _.pick(this.flowbox, flowKeys);
             flowConfig.tags = this.flowbox.tags
+            this.activeTags.removeAll()
+            _.each(this.flowbox.tags, function (label) {
+                this.activeTags.push(label)
+            }, this)
 
-            this.flowbox.initialized = false
             var interval = setInterval(function() {
                 if (_.isFunction(window.flowbox)) {
                     clearInterval(interval);
                     this._debug('Flowbox: flow init', flowConfig);
-                    window.flowbox('init', flowConfig);
+                    this._updateFlow()
                 }
             }.bind(this), 0.1);
         },
