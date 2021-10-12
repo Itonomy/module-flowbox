@@ -96,17 +96,6 @@ define([
             }
         },
 
-        toggleRadioActiveTag: function (label) {
-            if (typeof window.flowbox !== 'undefined') {
-                var tags = this.activeTags()
-                if (_.includes(tags, label)) {
-                    this.activeTags.remove(label)
-                } else {
-                    this.activeTags.push(label)
-                }
-            }
-        },
-
         /**
          * Initialize flow
          * @param elem
@@ -117,7 +106,7 @@ define([
             this.flowbox.container = `#${flowElement.id}`;
 
             var flowConfig = _.pick(this.flowbox, flowKeys);
-            flowConfig.tags = this.flowbox.tags;
+            flowConfig.tags = this.flowbox.tags
 
             this.flowbox.initialized = false
             var interval = setInterval(function() {
