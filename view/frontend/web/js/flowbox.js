@@ -107,15 +107,16 @@ define([
 
             var flowConfig = _.pick(this.flowbox, flowKeys);
             flowConfig.tags = this.flowbox.tags
-            this.activeTags.removeAll()
-            _.each(this.flowbox.tags, function (label) {
-                this.activeTags.push(label)
-            }, this)
 
             var interval = setInterval(function() {
                 if (_.isFunction(window.flowbox)) {
                     clearInterval(interval);
                     this._debug('Flowbox: flow init', flowConfig);
+                    window.flowbox('init', flowConfig);
+                    this.activeTags.removeAll()
+                    _.each(this.flowbox.tags, function (label) {
+                        this.activeTags.push(label)
+                    }, this)
                     this._updateFlow()
                 }
             }.bind(this), 0.1);
