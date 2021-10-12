@@ -13,7 +13,8 @@
             class="flowbox-tag"
         >
             <input
-                data-bind="attr: { id: tag.label }, checkedValue: tag.label, checked: $parent.activeTags"
+
+                data-bind="attr: { id: tag.label }, click: $parent.toggleCheckboxActiveTag(tag.label), checked: $parent.activeTags().includes(tag.label)"
                 type="checkbox"
                 class="flowbox-input"
             />

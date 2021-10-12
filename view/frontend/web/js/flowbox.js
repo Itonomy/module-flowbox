@@ -74,7 +74,7 @@ define([
                 _.each(this.flowbox.tags, function(tag) {
                     self.tagData.push({ label: tag });
                 });
-                this.activeTags.subscribe(this.updateFlow, this, 'arrayChange');
+                this.activeTags.subscribe(this._updateFlow, this, 'arrayChange');
             }
 
             this._debug('Flowbox: component init', this);
@@ -82,14 +82,21 @@ define([
             return this;
         },
 
-        setActiveTag: function (label) {
+        toggleCheckboxActiveTag: function (label) {
             if (typeof window.flowbox !== 'undefined') {
-                this.activeTags.removeAll()
-                this.activeTags.push(label)
+                if (this.activeTags().length > 1 || !_.contains(this.activeTags(), label)) {
+                    this.activeTags.removeAll()
+                    this.activeTags.push(label)
+                } else {
+                    this.activeTags.removeAll()
+                    _.each(this.flowbox.tags, function (label) {
+                        this.activeTags.push(label)
+                    }, this)
+                }
             }
         },
 
-        toggleActiveTag: function (label) {
+        toggleRadioActiveTag: function (label) {
             if (typeof window.flowbox !== 'undefined') {
                 var tags = this.activeTags()
                 if (_.includes(tags, label)) {
@@ -126,7 +133,7 @@ define([
          * Update flow
          * @param options
          */
-        updateFlow: function () {
+        _updateFlow: function () {
             if (_.isFunction(window.flowbox)) {
                 var flowConfig = _.pick(this.flowbox, flowKeys);
                 flowConfig.tags = this.activeTags();
