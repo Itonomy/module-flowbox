@@ -33,6 +33,7 @@ define([
                 tags: [],
                 debug: false,
             },
+            initialized: false,
             template: {
                 name: "Itonomy_Flowbox/flowbox",
             }
@@ -81,6 +82,24 @@ define([
             return this;
         },
 
+        setActiveTag: function (label) {
+            if (typeof window.flowbox !== 'undefined') {
+                this.activeTags.removeAll()
+                this.activeTags.push(label)
+            }
+        },
+
+        toggleActiveTag: function (label) {
+            if (typeof window.flowbox !== 'undefined') {
+                var tags = this.activeTags()
+                if (_.includes(tags, label)) {
+                    this.activeTags.remove(label)
+                } else {
+                    this.activeTags.push(label)
+                }
+            }
+        },
+
         /**
          * Initialize flow
          * @param elem
@@ -91,8 +110,9 @@ define([
             this.flowbox.container = `#${flowElement.id}`;
 
             var flowConfig = _.pick(this.flowbox, flowKeys);
-            flowConfig.tags = []; // reset tags array so initial flow displays all images.
+            flowConfig.tags = this.flowbox.tags;
 
+            this.flowbox.initialized = false
             var interval = setInterval(function() {
                 if (_.isFunction(window.flowbox)) {
                     clearInterval(interval);
@@ -107,10 +127,12 @@ define([
          * @param options
          */
         updateFlow: function () {
-            var flowConfig = _.pick(this.flowbox, flowKeys);
-            flowConfig.tags = this.activeTags();
-            this._debug('Flowbox: flow update', flowConfig);
-            window.flowbox('update', flowConfig);
+            if (_.isFunction(window.flowbox)) {
+                var flowConfig = _.pick(this.flowbox, flowKeys);
+                flowConfig.tags = this.activeTags();
+                this._debug('Flowbox: flow update', flowConfig);
+                window.flowbox('update', flowConfig);
+            }
         }
     });
 });
