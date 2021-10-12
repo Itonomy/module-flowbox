@@ -117,7 +117,6 @@ define([
                     _.each(this.flowbox.tags, function (label) {
                         this.activeTags.push(label)
                     }, this)
-                    this._updateFlow()
                 }
             }.bind(this), 0.1);
         },
