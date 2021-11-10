@@ -1,32 +1,48 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * Copyright © Itonomy BV. All rights reserved.
  * See LICENSE.md for license details.
  */
-
 namespace Itonomy\Flowbox\Block\Checkout\Onepage;
+
+use Itonomy\Flowbox\Helper\Data;
+use Magento\Checkout\Model\Session;
+use Magento\Cookie\Helper\Cookie;
+use Magento\Framework\Encryption\EncryptorInterface;
+use Magento\Framework\View\Element\Template\Context;
 
 class Success extends \Itonomy\Flowbox\Block\Base
 {
-    private \Magento\Checkout\Model\Session $checkoutSession;
+    /**
+     * @var Session
+     */
+    private $checkoutSession;
+
+    /**
+     * @var Data
+     */
+    private $helper;
 
     /**
      * Success constructor.
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Cookie\Helper\Cookie $cookie
-     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param Context $context
+     * @param EncryptorInterface $encryptor
+     * @param Cookie $cookie
+     * @param Session $checkoutSession
+     * @param Data $helper
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        \Magento\Cookie\Helper\Cookie $cookie,
-        \Magento\Checkout\Model\Session $checkoutSession,
+        Context $context,
+        EncryptorInterface $encryptor,
+        Cookie $cookie,
+        Session $checkoutSession,
+        Data $helper,
         array $data = []
     ) {
         parent::__construct($context, $cookie, $encryptor, $data);
+        $this->helper = $helper;
         $this->checkoutSession = $checkoutSession;
     }
 
@@ -44,9 +60,9 @@ class Success extends \Itonomy\Flowbox\Block\Base
                 'debug' => $this->isDebugJavaScript(),
                 'orderId' => \ltrim($order->getIncrementId(), '#'),
                 'products' => \array_map(
-                    function ($item) {
+                    function ($item){
                         return [
-                            'id' => (string) $item->getSku(),
+                            'id' => (string) $item->getData($this->helper->getAttributeCode()),
                             'quantity' => (int) $item->getQtyOrdered()
                         ];
                     },

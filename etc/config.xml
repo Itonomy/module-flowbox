@@ -12,6 +12,7 @@
             <general>
                 <enable>1</enable>
                 <debug_javascript>0</debug_javascript>
+                <checkout_identifier>sku</checkout_identifier>
             </general>
         </itonomy_flowbox>
         <dev>

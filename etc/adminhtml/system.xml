@@ -28,6 +28,11 @@
                     <comment>Your Flowbox API key</comment>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
+                <field id="checkout_identifier" type="select" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Checkout Identifier</label>
+                    <source_model>Itonomy\Flowbox\Model\Config\Source\CheckoutIdentifier</source_model>
+                    <comment>Select the product identifier for the checkout script</comment>
+                </field>
             </group>
         </section>
     </system>
