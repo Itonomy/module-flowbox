@@ -11,6 +11,7 @@ use Magento\Checkout\Model\Session;
 use Magento\Cookie\Helper\Cookie;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\View\Element\Template\Context;
+use Magento\Catalog\Model\ProductRepository;
 
 class Success extends \Itonomy\Flowbox\Block\Base
 {
@@ -25,11 +26,17 @@ class Success extends \Itonomy\Flowbox\Block\Base
     private $helper;
 
     /**
+     * @var ProductRepository
+     */
+    private $productRepository;
+
+    /**
      * Success constructor.
      * @param Context $context
      * @param EncryptorInterface $encryptor
      * @param Cookie $cookie
      * @param Session $checkoutSession
+     * @param ProductRepository $productRepository
      * @param Data $helper
      * @param array $data
      */
@@ -38,12 +45,14 @@ class Success extends \Itonomy\Flowbox\Block\Base
         EncryptorInterface $encryptor,
         Cookie $cookie,
         Session $checkoutSession,
+        ProductRepository $productRepository,
         Data $helper,
         array $data = []
     ) {
         parent::__construct($context, $cookie, $encryptor, $data);
         $this->helper = $helper;
         $this->checkoutSession = $checkoutSession;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -54,6 +63,7 @@ class Success extends \Itonomy\Flowbox\Block\Base
         try {
             $order = $this->checkoutSession->getLastRealOrder();
 
+
             $this->setData('flowbox', [
                 'allowCookies' => $this->isUserAllowSaveCookies(),
                 'apiKey' => (string) $this->getApiKey(),
@@ -61,8 +71,9 @@ class Success extends \Itonomy\Flowbox\Block\Base
                 'orderId' => \ltrim($order->getIncrementId(), '#'),
                 'products' => \array_map(
                     function ($item){
+                        $product = $this->productRepository->get($item->getSku());
                         return [
-                            'id' => (string) $item->getData($this->helper->getAttributeCode()),
+                            'id' => (string) $product->getData($this->helper->getAttributeCode()),
                             'quantity' => (int) $item->getQtyOrdered()
                         ];
                     },
