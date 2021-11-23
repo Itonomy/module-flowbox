@@ -4,7 +4,7 @@ ZIP := $(PKG).zip
 
 module:
 	git checkout $(TAG)
-	zip -qr $(ZIP) .
+	zip -qr $(ZIP) . --exclude=.git --exclude=.gitignore --exclude=.idea* --exclude=Makefile --exclude=*.DS_Store* --exclude=*.git*
 	mkdir -p ./pkg/$(PKG)
 	mv $(ZIP) ./pkg/$(PKG)/
 
