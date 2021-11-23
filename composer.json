@@ -2,7 +2,7 @@
     "name": "itonomy/module-flowbox",
     "description": "Flowbox for Magento2",
     "type": "magento2-module",
-    "version": "1.4.4",
+    "version": "1.4.6",
     "license": [
         "MIT"
     ],
@@ -21,10 +21,10 @@
     },
     "autoload": {
         "files": [
-            "src/registration.php"
+            "registration.php"
         ],
         "psr-4": {
-            "Itonomy\\Flowbox\\": "src/"
+            "Itonomy\\Flowbox\\": ""
         }
     }
 }

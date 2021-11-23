@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright © Itonomy BV. All rights reserved.
+* See LICENSE.md for license details.
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Elasticsearch7\Model\Client\Elasticsearch">
+        <plugin name="elastic_use_keyword_fieldtype" type="Itonomy\Flowbox\Plugin\Elasticsearch" sortOrder="1"/>
+    </type>
+</config>

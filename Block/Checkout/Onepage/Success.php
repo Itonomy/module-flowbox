@@ -1,34 +1,58 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * Copyright © Itonomy BV. All rights reserved.
  * See LICENSE.md for license details.
  */
-
 namespace Itonomy\Flowbox\Block\Checkout\Onepage;
+
+use Itonomy\Flowbox\Helper\Data;
+use Magento\Checkout\Model\Session;
+use Magento\Cookie\Helper\Cookie;
+use Magento\Framework\Encryption\EncryptorInterface;
+use Magento\Framework\View\Element\Template\Context;
+use Magento\Catalog\Model\ProductRepository;
 
 class Success extends \Itonomy\Flowbox\Block\Base
 {
     /**
-     * @var \Magento\Checkout\Model\Session
+     * @var Session
      */
     private $checkoutSession;
 
     /**
+     * @var Data
+     */
+    private $helper;
+
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
+
+    /**
      * Success constructor.
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param Context $context
+     * @param EncryptorInterface $encryptor
+     * @param Cookie $cookie
+     * @param Session $checkoutSession
+     * @param ProductRepository $productRepository
+     * @param Data $helper
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        \Magento\Checkout\Model\Session $checkoutSession,
+        Context $context,
+        EncryptorInterface $encryptor,
+        Cookie $cookie,
+        Session $checkoutSession,
+        ProductRepository $productRepository,
+        Data $helper,
         array $data = []
     ) {
-        parent::__construct($context, $encryptor, $data);
+        parent::__construct($context, $cookie, $encryptor, $data);
+        $this->helper = $helper;
         $this->checkoutSession = $checkoutSession;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -39,14 +63,17 @@ class Success extends \Itonomy\Flowbox\Block\Base
         try {
             $order = $this->checkoutSession->getLastRealOrder();
 
+
             $this->setData('flowbox', [
-                'debug' => $this->isDebugJavaScript(),
+                'allowCookies' => $this->isUserAllowSaveCookies(),
                 'apiKey' => (string) $this->getApiKey(),
+                'debug' => $this->isDebugJavaScript(),
                 'orderId' => \ltrim($order->getIncrementId(), '#'),
                 'products' => \array_map(
-                    function ($item) {
+                    function ($item){
+                        $product = $this->productRepository->get($item->getSku());
                         return [
-                            'id' => (string) $item->getSku(),
+                            'id' => (string) $product->getData($this->helper->getAttributeCode()),
                             'quantity' => (int) $item->getQtyOrdered()
                         ];
                     },

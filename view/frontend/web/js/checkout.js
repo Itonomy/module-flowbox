@@ -9,18 +9,16 @@ define([
     'ko',
     'jquery',
     'lib-flowbox-checkout',
-    'jquery/jquery.cookie',
     '!domReady'
 ], function(Component, _, ko, $, fb) {
     'use strict';
 
-    var flowKeys = ['apiKey', 'products', 'orderId'];
+    var flowKeys = ['allowCookies', 'apiKey', 'products', 'orderId'];
 
     return Component.extend({
         defaults: {
             flowbox: {
-                allowCookies: false,
-                override_cookies: false
+                allowCookies: true,
             }
         },
 
@@ -51,14 +49,6 @@ define([
             this._super(config);
 
             this.flowbox.products = _.values(config.flowbox.products)
-
-            var userAllowedSaveCookie = $.cookie('user_allowed_save_cookie')
-            if (!(_.isNull(userAllowedSaveCookie) || _.isUndefined(userAllowedSaveCookie))) {
-                this.flowbox.allowCookies = JSON.parse(userAllowedSaveCookie)["1"] === 1;
-            }
-            if (this.flowbox.override_cookies){
-                this.flowbox.allowCookies = 1;
-            }
 
             var interval = setInterval(function() {
                 if (_.isObject(window.flowboxCheckout) && _.isFunction(window.flowboxCheckout.checkout)) {

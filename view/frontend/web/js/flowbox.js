@@ -9,32 +9,31 @@ define([
     'ko',
     'jquery',
     'lib-flowbox',
-    'jquery/jquery.cookie',
     '!domReady'
 ], function(Component, _, ko, $, fb) {
     'use strict';
 
     var flowKeys = [
+        'allowCookies',
         'container',
         'key',
         'locale',
         'tags',
         'tagsOperator',
         'productId',
-        'allowCookies',
         'lazyload'
     ];
 
     return Component.extend({
         defaults: {
             flowbox: {
-                allowCookies: false,
+                allowCookies: true,
                 lazyload: true,
                 showTagBar: false,
                 tags: [],
                 debug: false,
-                override_cookies: false
             },
+            initialized: false,
             template: {
                 name: "Itonomy_Flowbox/flowbox",
             }
@@ -71,24 +70,30 @@ define([
 
             this._super(config);
 
-            var userAllowedSaveCookie = $.cookie('user_allowed_save_cookie')
-            if (!(_.isNull(userAllowedSaveCookie) || _.isUndefined(userAllowedSaveCookie))) {
-                this.flowbox.allowCookies = JSON.parse(userAllowedSaveCookie)["1"] === 1;
-            }
-            if (this.flowbox.override_cookies){
-                this.flowbox = _.omit(this.flowbox, 'allowCookies')
-            }
-
             if (config.flowbox.showTagBar) {
                 _.each(this.flowbox.tags, function(tag) {
                     self.tagData.push({ label: tag });
                 });
-                this.activeTags.subscribe(this.updateFlow, this, 'arrayChange');
+                this.activeTags.subscribe(this._updateFlow, this, 'arrayChange');
             }
 
             this._debug('Flowbox: component init', this);
 
             return this;
+        },
+
+        toggleCheckboxActiveTag: function (label) {
+            if (_.isFunction(window.flowbox)) {
+                if (this.activeTags().length > 1 || !_.contains(this.activeTags(), label)) {
+                    this.activeTags.removeAll()
+                    this.activeTags.push(label)
+                } else {
+                    this.activeTags.removeAll()
+                    _.each(this.flowbox.tags, function (label) {
+                        this.activeTags.push(label)
+                    }, this)
+                }
+            }
         },
 
         /**
@@ -101,13 +106,17 @@ define([
             this.flowbox.container = `#${flowElement.id}`;
 
             var flowConfig = _.pick(this.flowbox, flowKeys);
-            flowConfig.tags = []; // reset tags array so initial flow displays all images.
+            flowConfig.tags = this.flowbox.tags
 
             var interval = setInterval(function() {
                 if (_.isFunction(window.flowbox)) {
                     clearInterval(interval);
                     this._debug('Flowbox: flow init', flowConfig);
                     window.flowbox('init', flowConfig);
+                    this.activeTags.removeAll()
+                    _.each(this.flowbox.tags, function (label) {
+                        this.activeTags.push(label)
+                    }, this)
                 }
             }.bind(this), 0.1);
         },
@@ -116,11 +125,13 @@ define([
          * Update flow
          * @param options
          */
-        updateFlow: function () {
-            var flowConfig = _.pick(this.flowbox, flowKeys);
-            flowConfig.tags = this.activeTags();
-            this._debug('Flowbox: flow update', flowConfig);
-            window.flowbox('update', flowConfig);
+        _updateFlow: function () {
+            if (_.isFunction(window.flowbox)) {
+                var flowConfig = _.pick(this.flowbox, flowKeys);
+                flowConfig.tags = this.activeTags();
+                this._debug('Flowbox: flow update', flowConfig);
+                window.flowbox('update', flowConfig);
+            }
         }
     });
 });
