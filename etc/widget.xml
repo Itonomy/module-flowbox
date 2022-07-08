@@ -32,6 +32,14 @@
                 <description translate="true">Visit <![CDATA[<a href="https://app.getflowbox.com/login">flowbox</a>]]> to access your flows.</description>
             </parameter>
 
+            <parameter name="locale" xsi:type="text" required="false" visible="true" sort_order="25">
+                <label translate="true">Locale</label>
+                <description translate="true"><![CDATA[
+                    If left empty the <a href="https://docs.magento.com/user-guide/configuration/general/general.html#locale-options">Magento store locale</a> will be used. <br />
+                    Visit <a href="https://help.getflowbox.com/en/articles/4485750-changing-the-language-region-of-your-flow#our-supported-locales">here</a> to see a list of supported locales.
+                ]]></description>
+            </parameter>
+
             <parameter name="lazyload" xsi:type="select" required="false" visible="true" sort_order="99">
                 <label translate="true">Enable Lazy Loading</label>
                 <options>

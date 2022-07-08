@@ -15,6 +15,8 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
 
     private \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder;
 
+    private \Magento\Framework\Locale\Resolver $store;
+
     /**
      * Flow constructor.
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -22,6 +24,7 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Cookie\Helper\Cookie $cookie
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $store
      * @param array $data
      */
     public function __construct(
@@ -30,11 +33,13 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Cookie\Helper\Cookie $cookie,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Locale\Resolver $store,
         array $data = []
     ) {
         parent::__construct($context, $cookie, $encryptor, $data);
         $this->productRepository = $productRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->_store = $store;
     }
 
     /**
@@ -50,7 +55,7 @@ class Flow extends \Itonomy\Flowbox\Block\Base implements \Magento\Widget\Block\
                 'flow' => $flow,
                 'key' => $this->escapeHtml((string) $this->getData('key')),
                 'lazyload' => (bool) $this->getData('lazyload'),
-                'locale' => (string) $this->pageConfig->getElementAttribute('html', 'lang')
+                'locale' => (string) $this->getData('locale') ?: $this->_store->getLocale()
             ];
 
             if ($flow === static::FLOW_TYPE_DYNAMIC_PRODUCT) {
